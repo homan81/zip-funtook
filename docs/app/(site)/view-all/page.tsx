@@ -441,7 +441,7 @@
 //   const [categories, setCategories] = useState<Category[]>([]);
 //   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
 //   const [sortOption, setSortOption] = useState<string>("newest");
-  
+
 //   const searchParams = useSearchParams();
 //   const categoryFromUrl = searchParams.get("category");
 //   const subcategoryFromUrl = searchParams.get("subcategory");
@@ -555,7 +555,7 @@
 //           <h1 className="text-left text-2xl md:text-3xl font-semibold bg-black bg-clip-text text-transparent">
 //             {selectedCategory || "All Products"}
 //           </h1>
-          
+
 //           {/* Products + Rating (Hidden on mobile) */}
 //           <div className="hidden sm:flex items-center gap-4">
 //             <p>{pagination?.totalItems || 0} Products</p>
@@ -634,7 +634,7 @@
 //         <p className="text-xs sm:text-sm text-black mb-2 sm:mb-0">
 //           Showing {products.length} of {pagination?.totalItems || 0} Results
 //         </p>
-        
+
 //         <div className="flex items-center gap-2 cursor-pointer">
 //           <img src="/images/sort.svg" className="w-4 sm:w-5" />
 //           <span className="text-xs sm:text-sm text-black">Sort By</span>
@@ -931,3 +931,5 @@ export default function ViewAllPage() {
     </Suspense>
   );
 }
+
+

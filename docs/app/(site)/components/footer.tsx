@@ -29,9 +29,8 @@ export default function Footer() {
           >
             QUICK LINKS
             <ChevronDown
-              className={`w-4 h-4 md:hidden transition ${
-                open.links ? "rotate-180" : ""
-              }`}
+              className={`w-4 h-4 md:hidden transition ${open.links ? "rotate-180" : ""
+                }`}
             />
           </button>
 
@@ -71,9 +70,8 @@ export default function Footer() {
           >
             OUR SERVICES
             <ChevronDown
-              className={`w-4 h-4 md:hidden transition ${
-                open.services ? "rotate-180" : ""
-              }`}
+              className={`w-4 h-4 md:hidden transition ${open.services ? "rotate-180" : ""
+                }`}
             />
           </button>
 
@@ -84,11 +82,21 @@ export default function Footer() {
               md:block
             `}
           >
-            <li>Baby Welcome</li>
-            <li>Anniversary Decoration</li>
-            <li>Baby Shower</li>
-            <li>Birthday Decoration</li>
-            <li>Kids Theme Party</li>
+            <li>
+              <Link href="/#Baby-Welcome">Baby Welcome</Link>
+            </li>
+            <li>
+              <Link href="/#Anniversary">Anniversary Decoration</Link>
+            </li>
+            <li>
+              <Link href="/#Baby-shower">Baby Shower</Link>
+            </li>
+            <li>
+              <Link href="/#Birthday">Birthday Decoration</Link>
+            </li>
+            <li>
+              <Link href="/#Kids-birthday">Kids Theme Party</Link>
+            </li>
           </ul>
         </div>
 
@@ -113,3 +121,4 @@ export default function Footer() {
     </footer>
   );
 }
+

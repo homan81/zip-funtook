@@ -117,31 +117,6 @@ export default function ProductDetailPage() {
     const [openAccordion, setOpenAccordion] = useState<number | null>(null);
     const [status, setStatus] = useState<"available" | "not_available" | null>(null);
 
-
-    // const handleBookOrder = () => {
-    //     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-
-    //     const existingItem = cart.find(
-    //         (item: any) => item.productId === product?.id
-    //     );
-
-    //     if (existingItem) {
-    //         existingItem.quantity += 1;
-    //     } else {
-    //         cart.push({
-    //             productId: product?.id,
-    //             productName: product?.productName,
-    //             productImage: product?.productImage,
-    //             price: product?.price,
-    //             sellingPrice: product?.sellingPrice,
-    //             quantity: 1,
-    //         });
-    //     }
-
-    //     localStorage.setItem('cart', JSON.stringify(cart));
-    //     router.push('/Your-Cart');
-    // };
-
     const handleBookOrder = () => {
         // ❌ City empty
         if (!city.trim()) {
@@ -233,6 +208,35 @@ export default function ProductDetailPage() {
         fetchProduct();
     }, [slug]);
 
+    // if (loading) {
+    //     return (
+    //         <div className="w-full container mx-auto px-2 py-4 md:px-4 md:py-10 flex justify-center items-center min-h-screen">
+    //             <div className="text-center">
+    //                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FC6E88] mx-auto"></div>
+    //                 <p className="mt-4 text-gray-600">Loading product...</p>
+    //             </div>
+    //         </div>
+    //     );
+    // }
+
+    // if (error || !product) {
+    //     return (
+    //         <div className="w-full container mx-auto px-2 py-4 md:px-4 md:py-10 flex justify-center items-center min-h-screen">
+    //             <div className="text-center">
+    //                 <h2 className="text-2xl font-bold text-red-600 mb-4">
+    //                     {error || "Product not found"}
+    //                 </h2>
+    //                 <Link
+    //                     href="/"
+    //                     className="text-[#FC6E88] hover:underline font-semibold"
+    //                 >
+    //                     Return to Home
+    //                 </Link>
+    //             </div>
+    //         </div>
+    //     );
+    // }
+
     if (loading) {
         return (
             <div className="w-full container mx-auto px-2 py-4 md:px-4 md:py-10 flex justify-center items-center min-h-screen">
@@ -244,22 +248,9 @@ export default function ProductDetailPage() {
         );
     }
 
-    if (error || !product) {
-        return (
-            <div className="w-full container mx-auto px-2 py-4 md:px-4 md:py-10 flex justify-center items-center min-h-screen">
-                <div className="text-center">
-                    <h2 className="text-2xl font-bold text-red-600 mb-4">
-                        {error || "Product not found"}
-                    </h2>
-                    <Link
-                        href="/"
-                        className="text-[#FC6E88] hover:underline font-semibold"
-                    >
-                        Return to Home
-                    </Link>
-                </div>
-            </div>
-        );
+    // ✅ JUST THIS
+    if (!product) {
+        return null;
     }
 
     const allImages = [
@@ -1062,6 +1053,8 @@ function ProductDetailsAccordion({
 
 
 // Accordion Component
+
+
 interface AccordionProps {
     title: string;
     children: React.ReactNode;
