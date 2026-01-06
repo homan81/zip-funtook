@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+:root {
+  --font-geist-sans: 'Geist Sans', sans-serif;
+  --font-geist-mono: 'Geist Mono', monospace;
+
+
+  --background: #ffffff;
+  --foreground: #171717;
+
+  --pinkd: #FC6E88;
+  --pinkl: #FFE6EB;
+  --subhead: #2C3F5B;
+
+}
+
+.font_inter {
+  font-family: 'Inter', sans-serif;
+}
+
+
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  /* background: var(--background); */
+  /* color: var(--foreground); */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.headings_border {
+  position: relative;
+}
+.headings_border:before {
+    content: "";
+    width: 400px;
+    height: 1px;
+    background-color: var(--pinkd);
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+.headings_border:after {
+    content: "";
+    width: 400px;
+    height: 1px;
+    background-color: var(--pinkd);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+@media (max-width: 1550px) {
+  .headings_border:before, .headings_border:after {
+    width: 300px;
+  }
+}
+@media (max-width: 1280px) {
+  .headings_border:before, .headings_border:after {
+    width: 200px;
+  }
+}
+@media (max-width: 1024px) {
+  .headings_border:before, .headings_border:after {
+    width: 150px;
+  }
+}
+@media (max-width: 500px) {
+  .headings_border:before, .headings_border:after {
+    display: none;
+  }
+}
+
+@keyframes modalFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-modal-in {
+  animation: modalFadeIn 0.3s forwards;
+}
+html {
+  scroll-behavior: smooth;
+}
+.swiper-pagination-bullet {
+  background-color: #d1d5db; /* gray */
+  opacity: 1;
+}
+@layer components {
+  .swiper-pagination-bullet {
+    @apply bg-gray-300 opacity-100;
+  }
+ 
+}
