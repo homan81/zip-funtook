@@ -767,156 +767,167 @@
 // }
 
 
-"use client";
+// "use client";
 
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
+// import { useEffect, useState } from "react";
+// import { useSearchParams } from "next/navigation";
+// import Link from "next/link";
+// import Image from "next/image";
 
-interface Product {
-  id: number;
-  productName: string;
-  productImage: string | null;
-  price: number;
-  sellingPrice: number;
-  discountPercent: number;
-  stockQuantity: number;
-}
+// interface Product {
+//   id: number;
+//   productName: string;
+//   productImage: string | null;
+//   price: number;
+//   sellingPrice: number;
+//   discountPercent: number;
+//   stockQuantity: number;
+// }
 
-export default function ViewAll() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [pagination, setPagination] = useState<any>(null);
-  const [sortOption, setSortOption] = useState<string>("newest");
+// export default function ViewAll() {
+//   const [products, setProducts] = useState<Product[]>([]);
+//   const [loading, setLoading] = useState(true);
+//   const [page, setPage] = useState(1);
+//   const [pagination, setPagination] = useState<any>(null);
+//   const [sortOption, setSortOption] = useState<string>("newest");
 
-  const searchParams = useSearchParams();
-  const categoryFromUrl = searchParams.get("category");
+//   const searchParams = useSearchParams();
+//   const categoryFromUrl = searchParams.get("category");
 
-  // Fetch products
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        const params = new URLSearchParams({
-          page: page.toString(),
-          limit: "20",
-          sortBy: sortOption,
-        });
-        if (categoryFromUrl) params.append("category", categoryFromUrl);
+//   // Fetch products
+//   useEffect(() => {
+//     const fetchProducts = async () => {
+//       setLoading(true);
+//       try {
+//         const params = new URLSearchParams({
+//           page: page.toString(),
+//           limit: "20",
+//           sortBy: sortOption,
+//         });
+//         if (categoryFromUrl) params.append("category", categoryFromUrl);
 
-        const res = await fetch(`/api/products?${params}`);
-        const data = await res.json();
+//         const res = await fetch(`/api/products?${params}`);
+//         const data = await res.json();
 
-        if (!res.ok || !data.success) throw new Error(data?.message || "Failed to fetch");
+//         if (!res.ok || !data.success) throw new Error(data?.message || "Failed to fetch");
 
-        setProducts(data.products);
-        setPagination(data.pagination);
-      } catch (err) {
-        console.error(err);
-        setProducts([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+//         setProducts(data.products);
+//         setPagination(data.pagination);
+//       } catch (err) {
+//         console.error(err);
+//         setProducts([]);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
 
-    fetchProducts();
-  }, [page, sortOption, categoryFromUrl]);
+//     fetchProducts();
+//   }, [page, sortOption, categoryFromUrl]);
 
+//   return (
+//     <div className="w-full container mx-auto px-6 py-4 md:px-4 md:py-10">
+//       {/* Header */}
+//       <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-2 mb-5">
+//         <p className="text-left text-2xl md:text-3xl font-semibold bg-black bg-clip-text text-transparent">
+//           {categoryFromUrl ? decodeURIComponent(categoryFromUrl) : "All Products"}
+//         </p>
+
+//         <div className="hidden sm:flex items-center gap-4">
+//           <p>{pagination?.totalItems || 0} Products</p>
+//           <span>|</span>
+//           <div className="flex items-center gap-1">
+//             <p className="text-[#2BAC17]">★ 4.5</p>
+//             <p>reviews</p>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Products Grid */}
+//       {loading ? (
+//         <div className="flex justify-center items-center py-20">
+//           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FC6E88]"></div>
+//         </div>
+//       ) : products.length === 0 ? (
+//         <div className="bg-white rounded-lg shadow p-8 text-center">
+//           <p className="text-gray-500 text-lg">No products found in this category.</p>
+//           <p className="text-gray-400 mt-2">Try a different category or check back later.</p>
+//         </div>
+//       ) : (
+//         <>
+//           <div className="mt-4 overflow-x-scroll md:overflow-hidden">
+//             <div className="min-w-[700px] flex w-full gap-4 [&_p]:text-center [&_p]:text-black [&_img]:w-full [&_img]:object-cover [&_img]:rounded-lg">
+//               {products.map((product) => (
+//                 <Link
+//                   href={`/products/${product.id}`}
+//                   key={product.id}
+//                   className="w-[25%] flex-shrink-0"
+//                 >
+//                   <img
+//                     src={product.productImage || "/images/room decor.svg"}
+//                     className="w-full aspect-square object-cover rounded-lg mb-2"
+//                   />
+//                   <div className="px-2 py-4">
+//                     <div className="flex flex-col leading-none">
+//                       <span className="text-yellow-400">★★★★★</span>
+//                       <span className="text-xs sm:text-sm md:text-base lg:text-lg font-medium mb-3">
+//                         {product.productName}
+//                       </span>
+//                     </div>
+//                     <div className="flex items-center gap-2">
+//                       <span className="font-[22px]">₹{product.sellingPrice}</span>
+//                       {product.price > product.sellingPrice && (
+//                         <span className="text-gray-400 line-through text-sm">₹{product.price}</span>
+//                       )}
+//                       {product.discountPercent > 0 && (
+//                         <span className="border border-[#93F8C5] rounded-xl px-1.5 py-0.5 text-[10px] font-medium text-[#016136] bg-gradient-to-r from-[#91F8C5] to-white inline-flex items-center justify-center">
+//                           {product.discountPercent}% OFF
+//                         </span>
+//                       )}
+//                     </div>
+//                   </div>
+//                 </Link>
+//               ))}
+//             </div>
+//           </div>
+
+//           {/* Pagination */}
+//           {pagination && pagination.totalPages > 1 && (
+//             <div className="flex justify-center items-center gap-4 bg-white rounded-lg shadow p-4 mt-6">
+//               <button
+//                 onClick={() => setPage((p) => Math.max(1, p - 1))}
+//                 disabled={!pagination.hasPreviousPage}
+//                 className="px-4 py-2 bg-gray-200 hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed rounded-lg font-semibold transition-colors"
+//               >
+//                 Previous
+//               </button>
+
+//               <span className="text-gray-700 font-medium">
+//                 Page {pagination.currentPage} of {pagination.totalPages}
+//               </span>
+
+//               <button
+//                 onClick={() => setPage((p) => p + 1)}
+//                 disabled={!pagination.hasNextPage}
+//                 className="px-4 py-2 bg-[#FC6E88] hover:bg-[#e55d77] disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-colors"
+//               >
+//                 Next
+//               </button>
+//             </div>
+//           )}
+//         </>
+//       )}
+//     </div>
+//   );
+// }
+
+
+import { Suspense } from "react";
+import ViewAllClient from "./ViewAllClient";
+
+export default function ViewAllPage() {
   return (
-    <div className="w-full container mx-auto px-6 py-4 md:px-4 md:py-10">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-2 mb-5">
-        <p className="text-left text-2xl md:text-3xl font-semibold bg-black bg-clip-text text-transparent">
-          {categoryFromUrl ? decodeURIComponent(categoryFromUrl) : "All Products"}
-        </p>
-
-        <div className="hidden sm:flex items-center gap-4">
-          <p>{pagination?.totalItems || 0} Products</p>
-          <span>|</span>
-          <div className="flex items-center gap-1">
-            <p className="text-[#2BAC17]">★ 4.5</p>
-            <p>reviews</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Products Grid */}
-      {loading ? (
-        <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FC6E88]"></div>
-        </div>
-      ) : products.length === 0 ? (
-        <div className="bg-white rounded-lg shadow p-8 text-center">
-          <p className="text-gray-500 text-lg">No products found in this category.</p>
-          <p className="text-gray-400 mt-2">Try a different category or check back later.</p>
-        </div>
-      ) : (
-        <>
-          <div className="mt-4 overflow-x-scroll md:overflow-hidden">
-            <div className="min-w-[700px] flex w-full gap-4 [&_p]:text-center [&_p]:text-black [&_img]:w-full [&_img]:object-cover [&_img]:rounded-lg">
-              {products.map((product) => (
-                <Link
-                  href={`/products/${product.id}`}
-                  key={product.id}
-                  className="w-[25%] flex-shrink-0"
-                >
-                  <img
-                    src={product.productImage || "/images/room decor.svg"}
-                    className="w-full aspect-square object-cover rounded-lg mb-2"
-                  />
-                  <div className="px-2 py-4">
-                    <div className="flex flex-col leading-none">
-                      <span className="text-yellow-400">★★★★★</span>
-                      <span className="text-xs sm:text-sm md:text-base lg:text-lg font-medium mb-3">
-                        {product.productName}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-[22px]">₹{product.sellingPrice}</span>
-                      {product.price > product.sellingPrice && (
-                        <span className="text-gray-400 line-through text-sm">₹{product.price}</span>
-                      )}
-                      {product.discountPercent > 0 && (
-                        <span className="border border-[#93F8C5] rounded-xl px-1.5 py-0.5 text-[10px] font-medium text-[#016136] bg-gradient-to-r from-[#91F8C5] to-white inline-flex items-center justify-center">
-                          {product.discountPercent}% OFF
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Pagination */}
-          {pagination && pagination.totalPages > 1 && (
-            <div className="flex justify-center items-center gap-4 bg-white rounded-lg shadow p-4 mt-6">
-              <button
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                disabled={!pagination.hasPreviousPage}
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed rounded-lg font-semibold transition-colors"
-              >
-                Previous
-              </button>
-
-              <span className="text-gray-700 font-medium">
-                Page {pagination.currentPage} of {pagination.totalPages}
-              </span>
-
-              <button
-                onClick={() => setPage((p) => p + 1)}
-                disabled={!pagination.hasNextPage}
-                className="px-4 py-2 bg-[#FC6E88] hover:bg-[#e55d77] disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-colors"
-              >
-                Next
-              </button>
-            </div>
-          )}
-        </>
-      )}
-    </div>
+    <Suspense fallback={<div className="p-10 text-center">Loading products...</div>}>
+      <ViewAllClient />
+    </Suspense>
   );
 }
-

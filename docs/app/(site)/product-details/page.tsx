@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ProductDetails from "../components/product-details/ProductDetails";
+// import ProductDetails from "../components/product-details/ProductDetails";
 import ProductZoom from "../components/ProductZoom/productzoom";
 import { HiCode } from "react-icons/hi";
 
@@ -55,7 +55,7 @@ export default function Products() {
             </span>
           </div>
 
-          <ProductDetails />
+          {/* <ProductDetails /> */}
 
           {/* Offer Box */}
           <div className="mt-10 border border-[#E7E7E7] rounded-3xl">
