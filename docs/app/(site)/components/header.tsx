@@ -364,7 +364,7 @@
 
 
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -379,6 +379,140 @@ export default function Header() {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const [signupData, setSignupData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSignup = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: signupData.name,
+          email: signupData.email,
+          password: signupData.password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data?.error || "Signup failed");
+      }
+
+      // ✅ Success
+      alert("Signup successful 🎉");
+      setIsSignupOpen(false);
+      setIsLoginOpen(true);
+
+      setSignupData({ name: "", email: "", password: "" });
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Email and password are required");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || "Login failed");
+        return;
+      }
+
+      // ✅ Login success
+      console.log("Login success:", data);
+
+      // Example: save token / user
+      localStorage.setItem("token", data.token);
+
+      // Close modal
+      setIsLoginOpen(false);
+
+      // Optional: redirect
+      // router.push("/dashboard");
+
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const [search, setSearch] = useState("");
+  const [products, setProducts] = useState<any[]>([]);
+
+
+  const searchProducts = async (query: string) => {
+    if (!query) {
+      setProducts([]);
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await fetch(
+        `/api/products/search?q=${encodeURIComponent(query)}`
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setProducts(data.products || []);
+      }
+    } catch (error) {
+      console.error("Search error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      searchProducts(search);
+    }, 400); // debounce 400ms
+
+    return () => clearTimeout(delay);
+  }, [search]);
+
+
   return (
     <header className="">
       <div className="text-center sm:text-lg text-sm font-semibold p-2 text-white bg-(--pinkd)">
@@ -432,7 +566,7 @@ export default function Header() {
               <label htmlFor="simple-search" className="sr-only">
                 Search
               </label>
-              <div className="relative w-full">
+              {/* <div className="relative w-full">
                 <input
                   type="text"
                   id="simple-search"
@@ -440,7 +574,20 @@ export default function Header() {
                   placeholder="Search For Decorations...."
                   required
                 />
+              </div> */}
+
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  id="simple-search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="px-3 py-2.5 bg-(--pinkl) rounded-base outline-none text-heading text-sm block w-full placeholder:text-[#7B7A7A]"
+                  placeholder="Search For Decorations...."
+                />
               </div>
+
+
               <button
                 type="submit"
                 className="inline-flex items-center justify-center shrink-0 text-white bg-(--pinkd) hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs rounded-base w-10 h-10 focus:outline-none"
@@ -537,10 +684,19 @@ export default function Header() {
                     {/* Name */}
                     <div className="mb-4">
                       <div className="flex items-center border-b pb-1 mt-1">
+                        {/* <input
+                          className="w-full outline-none bg-transparent text-lg placeholder-black pl-6"
+                          placeholder="Name"
+                        /> */}
                         <input
                           className="w-full outline-none bg-transparent text-lg placeholder-black pl-6"
                           placeholder="Name"
+                          value={signupData.name}
+                          onChange={(e) =>
+                            setSignupData({ ...signupData, name: e.target.value })
+                          }
                         />
+
                         <HiUser className="text-black text-xl" />
                       </div>
                     </div>
@@ -548,9 +704,17 @@ export default function Header() {
                     {/* Email */}
                     <div className="mb-4">
                       <div className="flex items-center border-b pb-1 mt-1">
+                        {/* <input
+                          className="w-full outline-none bg-transparent text-lg placeholder-black pl-6"
+                          placeholder="Email"
+                        /> */}
                         <input
                           className="w-full outline-none bg-transparent text-lg placeholder-black pl-6"
                           placeholder="Email"
+                          value={signupData.email}
+                          onChange={(e) =>
+                            setSignupData({ ...signupData, email: e.target.value })
+                          }
                         />
                         <HiMail className="text-black text-xl" />
                       </div>
@@ -559,10 +723,19 @@ export default function Header() {
                     {/* Password */}
                     <div className="mb-4">
                       <div className="flex items-center border-b pb-1 mt-1 placeholder-black pl-6">
+                        {/* <input
+                          type="password"
+                          className="w-full outline-none bg-transparent text-lg placeholder-black pl-[2px]"
+                          placeholder="Password"
+                        /> */}
                         <input
                           type="password"
                           className="w-full outline-none bg-transparent text-lg placeholder-black pl-[2px]"
                           placeholder="Password"
+                          value={signupData.password}
+                          onChange={(e) =>
+                            setSignupData({ ...signupData, password: e.target.value })
+                          }
                         />
                         <HiLockClosed className="text-black text-xl" />
                       </div>
@@ -584,8 +757,12 @@ export default function Header() {
                     </div>
 
                     {/* Signup Button */}
-                    <button className="w-full mt-6 bg-[linear-gradient(180deg,rgba(252,110,136,1)_0%,rgba(153,60,66,1)_130%)] text-white py-1 rounded-lg font-semibold">
-                      Sign Up
+                    <button
+                      onClick={handleSignup}
+                      disabled={loading}
+                      className="w-full mt-6 bg-[linear-gradient(180deg,rgba(252,110,136,1)_0%,rgba(153,60,66,1)_130%)] text-white py-1 rounded-lg font-semibold disabled:opacity-60"
+                    >
+                      {loading ? "Signing up..." : "Sign Up"}
                     </button>
 
                     {/* Switch to Login */}
@@ -625,10 +802,17 @@ export default function Header() {
                     {/* Email */}
                     <div className="mb-4">
                       <div className="flex items-center border-b pb-1 mt-1">
+                        {/* <input
+                          className="w-full outline-none bg-transparent text-lg placeholder-black pl-6"
+                          placeholder="Email"
+                        /> */}
                         <input
                           className="w-full outline-none bg-transparent text-lg placeholder-black pl-6"
                           placeholder="Email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                         />
+
                         <HiMail className="text-black text-xl" />
                       </div>
                     </div>
@@ -636,10 +820,17 @@ export default function Header() {
                     {/* Password */}
                     <div className="mb-4">
                       <div className="flex items-center border-b pb-1 mt-1">
+                        {/* <input
+                          type="password"
+                          className="w-full outline-none bg-transparent text-lg placeholder-black pl-6"
+                          placeholder="Password"
+                        /> */}
                         <input
                           type="password"
                           className="w-full outline-none bg-transparent text-lg placeholder-black pl-6"
                           placeholder="Password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
                         />
                         <HiLockClosed className="text-black text-xl" />
                       </div>
@@ -662,9 +853,18 @@ export default function Header() {
                     </div>
 
                     {/* Login Button */}
-                    <button className="w-full mt-6 bg-[#FC6E88] text-white py-1 rounded-lg font-semibold">
+                    {/* <button className="w-full mt-6 bg-[#FC6E88] text-white py-1 rounded-lg font-semibold">
                       Login
+                    </button> */}
+
+                    <button
+                      onClick={handleLogin}
+                      disabled={loading}
+                      className="w-full mt-6 bg-[#FC6E88] text-white py-1 rounded-lg font-semibold disabled:opacity-60"
+                    >
+                      {loading ? "Logging in..." : "Login"}
                     </button>
+
 
                     {/* Switch to Signup */}
                     <p className="text-center text-sm text-gray-700 mt-4">
