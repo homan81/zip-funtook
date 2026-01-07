@@ -480,11 +480,11 @@ export default function Header() {
 
 
   const searchProducts = async (query: string) => {
+
     if (!query) {
       setProducts([]);
       return;
     }
-
     try {
       setLoading(true);
 
@@ -586,7 +586,6 @@ export default function Header() {
                   placeholder="Search For Decorations...."
                 />
               </div>
-
 
               <button
                 type="submit"
