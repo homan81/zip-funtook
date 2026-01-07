@@ -153,10 +153,15 @@ export default function ViewAllClient() {
                                 : 0;
 
                         return (
+                            // <Link
+                            //     key={product.id}
+                            //     href={`/products/${product.id}`}
+                            //     className="block"
+                            // >
                             <Link
                                 key={product.id}
-                                href={`/products/${product.id}`}
-                                className="block"
+                                href={`/product-details/${product.id}`}
+                                className="cursor-pointer"
                             >
                                 <img
                                     src={product.productImage || "/images/room decor.svg"}
