@@ -3,7 +3,7 @@ import React from 'react'
 export default function section_10() {
   return (
     <div>
-      <div className="mt-16 container mx-auto p-4">
+      <div className="mt-5 sm:mt-16 container mx-auto p-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="flex items-start gap-3">

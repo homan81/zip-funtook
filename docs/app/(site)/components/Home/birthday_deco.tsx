@@ -171,6 +171,9 @@ import Surprise_Love from "./Surprise_Love";
 import Section_11 from "./Section_11";
 import Freq_ques from "./Freq_ques";
 import Book_Decors from "./Book _Decors";
+import Customers from "../About/Customers";
+import Mobilebottomtabs from "../Mobilebottomtabs/Mobilebottomtabs";
+
 
 interface Category {
   id: number;
@@ -557,11 +560,17 @@ export default function BirthdayDeco() {
       {/* Service Info Section */}
       <Service_Bars />
       {/* Section_11 Section */}
+
+      <Customers />
+
       <Section_11 />
       {/* Freq_ques Section */}
       <Freq_ques />
       {/* Book_Decors Section */}
       <Book_Decors />
+
+      <Mobilebottomtabs/>
+
     </div>
   );
 }

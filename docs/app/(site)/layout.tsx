@@ -8,7 +8,7 @@ import { Roboto } from "next/font/google";
 //import "./globals.css";
 import Header from "@/app/(site)/components/header";
 import Footer from "@/app/(site)/components/footer";
-import Mobilebottomtabs from "./components/Mobilebottomtabs/Mobilebottomtabs";
+
 
 
 const roboto = Roboto({
@@ -32,7 +32,7 @@ export default function SiteLayout({
       <Header />
       {children}
       <Footer />
-      <Mobilebottomtabs/>
+      
     </div>
   );
 }

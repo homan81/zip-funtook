@@ -3,7 +3,7 @@ import React from 'react'
 export default function Section_11() {
     return (
         <div>
-            <div className="mt-18 container mx-auto p-4">
+            <div className="sm:mt-18 mt-0 container mx-auto p-4">
                 <h4 className="font-bold text-lg sm:text-xl md:text-2xl lg:text-[28px] mb-5 text-center md:text-left">
                     Best Balloon Decoration Services in Patna — Affordable & Stunning
                     Designs

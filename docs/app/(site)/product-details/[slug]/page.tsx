@@ -114,8 +114,10 @@ export default function ProductDetailPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [city, setCity] = useState("");
-    const [openAccordion, setOpenAccordion] = useState<number | null>(null);
+    const [openAccordion, setOpenAccordion] = useState<number | null>(0);
     const [status, setStatus] = useState<"available" | "not_available" | null>(null);
+    const [productCities, setProductCities] = useState<string[]>([]);
+
 
     const handleBookOrder = () => {
         // ❌ City empty
@@ -155,31 +157,17 @@ export default function ProductDetailPage() {
         router.push("/Your-Cart");
     };
 
-    const checkCityAvailability = async (cityName: string) => {
-        if (!cityName) {
+    const checkCityAvailability = (value: string) => {
+        if (!value.trim()) {
             setStatus(null);
             return;
         }
 
-        try {
-            const res = await fetch("http://localhost:3000/api/products/");
-            const data = await res.json();
+        const isAvailable = productCities.includes(value.trim().toLowerCase());
 
-            const isAvailable = data.products.some((product: any) => {
-                if (!product.locationAvailability) return false;
-
-                const locations = JSON.parse(product.locationAvailability); // 🔥 important
-                return locations.some(
-                    (loc: string) => loc.toLowerCase() === cityName.toLowerCase()
-                );
-            });
-
-            setStatus(isAvailable ? "available" : "not_available");
-        } catch (err) {
-            console.error(err);
-            setStatus("not_available");
-        }
+        setStatus(isAvailable ? "available" : "not_available");
     };
+
 
     useEffect(() => {
         if (!slug) return;
@@ -187,13 +175,19 @@ export default function ProductDetailPage() {
         const fetchProduct = async () => {
             try {
                 setLoading(true);
-                // const response = await fetch(`/api/products/slug/${slug}`);
-                const response = await fetch(`/api/products/${slug}`);
 
+                const response = await fetch(`/api/products/${slug}`);
                 const data = await response.json();
 
                 if (data.success) {
                     setProduct(data.product);
+
+                    // ✅ FIXED: correct field name
+                    setProductCities(
+                        (data.product.locationAvailability || []).map(
+                            (c: string) => c.trim().toLowerCase()
+                        )
+                    );
                 } else {
                     setError(data.message || "Product not found");
                 }
@@ -208,34 +202,7 @@ export default function ProductDetailPage() {
         fetchProduct();
     }, [slug]);
 
-    // if (loading) {
-    //     return (
-    //         <div className="w-full container mx-auto px-2 py-4 md:px-4 md:py-10 flex justify-center items-center min-h-screen">
-    //             <div className="text-center">
-    //                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FC6E88] mx-auto"></div>
-    //                 <p className="mt-4 text-gray-600">Loading product...</p>
-    //             </div>
-    //         </div>
-    //     );
-    // }
 
-    // if (error || !product) {
-    //     return (
-    //         <div className="w-full container mx-auto px-2 py-4 md:px-4 md:py-10 flex justify-center items-center min-h-screen">
-    //             <div className="text-center">
-    //                 <h2 className="text-2xl font-bold text-red-600 mb-4">
-    //                     {error || "Product not found"}
-    //                 </h2>
-    //                 <Link
-    //                     href="/"
-    //                     className="text-[#FC6E88] hover:underline font-semibold"
-    //                 >
-    //                     Return to Home
-    //                 </Link>
-    //             </div>
-    //         </div>
-    //     );
-    // }
 
     if (loading) {
         return (
@@ -371,6 +338,28 @@ export default function ProductDetailPage() {
                                 </svg>
                             </span>
 
+                            {/* <input
+                                type="text"
+                                value={city}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    setCity(value);
+                                    setError(null);
+                                    checkCityAvailability(value);
+                                }}
+                                placeholder="Type your city name..."
+                                className={`w-full pl-9 pr-3 py-2 rounded-lg text-sm outline-none
+                                    ${error
+                                        ? "bg-red-200"
+                                        : status === "available"
+                                            ? "bg-green-100"
+                                            : status === "not_available"
+                                                ? "bg-red-100"
+                                                : "bg-gray-100"
+                                    }
+                                `}
+                            /> */}
+
                             <input
                                 type="text"
                                 value={city}
@@ -392,6 +381,7 @@ export default function ProductDetailPage() {
                                     }
                                 `}
                             />
+
 
                         </div>
                         {status === "available" && (
@@ -448,7 +438,7 @@ export default function ProductDetailPage() {
                     </div> */}
 
                     {/* Offer Box */}
-                    <div className="mt-10 border border-[#E7E7E7] rounded-3xl md:sticky bottom-0 bg-white">
+                    <div className="mt-10 border border-[#E7E7E7] rounded-3xl sticky bottom-0 bg-white">
                         <div className="bg-[#FBEFCE] p-4 flex gap-5 rounded-tl-[20px] rounded-tr-[20px]">
                             <div className="flex gap-2">
                                 <img className="w-6 h-6 sm:w-5" src="/images/discount.png" />
@@ -466,7 +456,7 @@ export default function ProductDetailPage() {
                         {/* Buttons */}
                         <div className="p-5 flex gap-5 justify-center">
                             {/* WhatsApp */}
-                            <button className="flex items-center justify-center gap-2 w-full bg-white text-[#25BF31] border-2 border-[#25BF31] sm:px-5 sm:py-2 rounded shadow text-[12px] sm:text:[18px] p-[5px]">
+                            <button className="flex items-center justify-center gap-2 w-full bg-white text-[#199E23] border-2 border-[#199E23] sm:px-5 sm:py-2 rounded shadow text-[12px] sm:text:[18px] p-[5px]">
                                 <img
                                     src="/images/logos_whatsapp-icon.svg"
                                     className="w-5 h-5"
@@ -480,7 +470,7 @@ export default function ProductDetailPage() {
                             </button> */}
                             <button
                                 onClick={handleBookOrder}
-                                className="flex items-center justify-center w-full bg-(--pinkd) text-white sm:px-5 sm:py-2 rounded shadow text-[12px] sm:text:[18px] p-[5px]"
+                                className="flex items-center justify-center w-full bg-[#F92B51] text-white sm:px-5 sm:py-2 rounded shadow text-[12px] sm:text:[18px] p-[5px]"
                             >
                                 Book your order →
                             </button>
@@ -519,7 +509,7 @@ export default function ProductDetailPage() {
                                 </div>
                             </div>
 
-                            <button className="bg-[#FFDFE5] px-5 py-2 rounded-bl-2xl rounded-br-2xl text-[15px] font-medium mt-4 w-full">
+                            <button className="bg-[#FDB7C4] text-[#FF2181] px-5 py-2 rounded-bl-2xl rounded-br-2xl text-[17px] font-bold mt-4 w-full">
                                 Explore Our Recent Works →
                             </button>
                         </div>
@@ -713,7 +703,7 @@ function ImageGalleryWithZoom({
     return (
         <div className="flex flex-col items-center w-full max-w-[600px] mx-auto">
             {/* MAIN IMAGE */}
-            <div className="relative w-full mx-auto px-2 sm:px-5 max-w-[90%] lg:max-w-[600px]">
+            <div className="relative w-full mx-auto sm:px-5 max-w-[100%] lg:max-w-[600px]">
                 {images.length > 1 && (
                     <>
                         <button
@@ -747,7 +737,7 @@ function ImageGalleryWithZoom({
                     {images.map((src, i) => (
                         <SwiperSlide key={i}>
                             <div
-                                className="w-full mb-5 rounded-xl
+                                className="w-full mb-5 rounded-none md:rounded-xl
                                         overflow-hidden bg-gray-100 cursor-zoom-in"
                                 onMouseEnter={() => setZoom(true)}
                                 onMouseLeave={() => setZoom(false)}
