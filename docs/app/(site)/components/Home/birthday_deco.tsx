@@ -509,7 +509,7 @@ export default function BirthdayDeco() {
   };
 
   return (
-    <div className="mx-auto">
+    <div>
       {/* <div className="text-center mb-15 headings_border">
         <h2 className="font-bold text-[34px]">Explore</h2>
         <p className="text-[18px] text-(--subhead)">Wide Range Of Options</p>

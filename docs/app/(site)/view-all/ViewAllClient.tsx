@@ -89,19 +89,7 @@ export default function ViewAllClient() {
                 )}
             </div>
 
-            {/* Results Bar */}
-            <div className="w-full bg-[#E7E7E7] rounded-lg px-3 py-2 flex items-center justify-between mb-4">
-                <p className="text-xs sm:text-sm text-black">
-                    Showing {products.length} of {pagination?.totalItems || 0} Results
-                </p>
-
-                <div className="flex items-center gap-2 cursor-pointer">
-                    <img src="/images/sort.svg" className="w-4 sm:w-5" />
-                    <span className="text-xs sm:text-sm text-black">Sort By</span>
-                </div>
-            </div>
-
-            <div className="flex flex-col items-start overflow-x-scroll md:overflow-hidden">
+            {/* <div className="flex flex-col items-start overflow-x-scroll md:overflow-hidden">
                 <div className="flex gap-6 sm:gap-[57px] justify-center mb-10">
 
                     {categoriesFromProducts.map((category) => (
@@ -129,6 +117,71 @@ export default function ViewAllClient() {
                         </div>
                     ))}
 
+                </div>
+            </div> */}
+
+            {/* <div className="w-full"> */}
+                <div
+                    className="
+                    grid grid-cols-3 lg:grid-cols-6 gap-4
+                    [&_p]:text-center
+                    [&_p]:text-black
+                    [&_p]:text-xs
+                    sm:[&_p]:text-sm
+                    lg:[&_p]:text-lg
+                    [&_p]:mt-2
+                    mb-10
+                    "
+                >
+                    {categoriesFromProducts.map((category) => {
+                        const product = products.find(
+                            (p) => p.category === category
+                        );
+
+                        return (
+                            <div
+                                key={category}
+                                onClick={() => {
+                                    if (product) {
+                                        router.push(`/product-details/${product.id}`);
+                                    }
+                                }}
+                                className="cursor-pointer"
+                            >
+                                <div
+                                    className="
+                                    mx-auto overflow-hidden
+                                    w-full max-w-[120px]
+                                    sm:max-w-[160px]
+                                    lg:max-w-[230px]
+                                    aspect-square
+                                    hover:scale-105 transition-transform
+                                    "
+                                >
+                                    <img
+                                        src="/images/image3.svg"
+                                        alt={category}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+
+                                <p>{category}</p>
+                            </div>
+                        );
+                    })}
+                </div>
+            {/* </div> */}
+
+
+            {/* Results Bar */}
+            <div className="w-full bg-[#E7E7E7] rounded-lg px-3 py-2 flex items-center justify-between mb-4">
+                <p className="text-xs sm:text-sm text-black">
+                    Showing {products.length} of {pagination?.totalItems || 0} Results
+                </p>
+
+                <div className="flex items-center gap-2 cursor-pointer">
+                    <img src="/images/sort.svg" className="w-4 sm:w-5" />
+                    <span className="text-xs sm:text-sm text-black">Sort By</span>
                 </div>
             </div>
 

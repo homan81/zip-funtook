@@ -2,7 +2,7 @@
 
 export default function Explore() {
   return (
-    <div className="container mx-auto p-5 sm:pb-15 px-5">
+    <div className="container mx-auto p-5 sm:pb-15 px-4">
       <div className="text-center mb-8 sm:mb-15 headings_border">
         <h2 className="font-bold text-[34px]">Explore</h2>
         <p className="text-[18px] text-(--subhead)">Wide Range Of Options</p>
@@ -10,14 +10,14 @@ export default function Explore() {
       <div className="w-full">
         <div
           className="
-      grid grid-cols-3 lg:grid-cols-6 gap-4
-      [&_p]:text-center
-      [&_p]:text-black
-      [&_p]:text-xs
-      sm:[&_p]:text-sm
-      lg:[&_p]:text-lg
-      [&_p]:mt-2
-    "
+            grid grid-cols-3 lg:grid-cols-6 gap-4
+            [&_p]:text-center
+            [&_p]:text-black
+            [&_p]:text-xs
+            sm:[&_p]:text-sm
+            lg:[&_p]:text-lg
+            [&_p]:mt-2
+          "
         >
           <div>
             <div

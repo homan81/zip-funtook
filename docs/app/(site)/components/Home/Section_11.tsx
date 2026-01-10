@@ -3,7 +3,7 @@ import React from 'react'
 export default function Section_11() {
     return (
         <div>
-            <div className="sm:mt-18 mt-0 container mx-auto p-4">
+            <div className=" container mx-auto p-4">
                 <h4 className="font-bold text-lg sm:text-xl md:text-2xl lg:text-[28px] mb-5 text-center md:text-left">
                     Best Balloon Decoration Services in Patna — Affordable & Stunning
                     Designs
@@ -34,7 +34,7 @@ export default function Section_11() {
                 </ul>
             </div>
 
-            <div className="mt-18 hidden md:block container mx-auto p-4">
+            <div className="mt-0 sm:mt-8 hidden md:block container mx-auto p-4">
                 <h4 className="font-bold text-[28px] mb-5">
                     Why Choose Funtook for Balloon Decoration in Patna?
                 </h4>
@@ -72,7 +72,7 @@ export default function Section_11() {
                 </ul>
             </div>
 
-            <div className="mt-18 hidden md:block container mx-auto p-4">
+            <div className="mt-0 sm:mt-8 hidden md:block container mx-auto p-4">
                 <h4 className="font-bold text-[28px] mb-5">
                     Our Balloon Decoration Services in Patna
                 </h4>

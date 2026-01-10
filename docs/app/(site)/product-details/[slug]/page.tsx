@@ -168,7 +168,6 @@ export default function ProductDetailPage() {
         setStatus(isAvailable ? "available" : "not_available");
     };
 
-
     useEffect(() => {
         if (!slug) return;
 
@@ -201,7 +200,6 @@ export default function ProductDetailPage() {
 
         fetchProduct();
     }, [slug]);
-
 
 
     if (loading) {
@@ -300,7 +298,7 @@ export default function ProductDetailPage() {
                         <span className="text-yellow-400 text-xl sm:text-2xl md:text-3xl">
                             ★★★★★
                         </span>
-                        <span className="text-[#616161]">(4.8)|</span>
+                        <span className="text-[#616161]">(4.8) |</span>
                         <span className="text-[#566AFF]">170 reviews</span>
                     </div>
 
@@ -760,7 +758,6 @@ function ImageGalleryWithZoom({
             </div>
 
             {/* THUMBNAILS */}
-            {/* <div className="hidden lg:flex gap-4 "> */}
             <div className="hidden lg:flex gap-4 overflow-x-auto flex-nowrap w-[500px]">
                 {images.map((src, i) => (
                     <div
@@ -791,6 +788,74 @@ function ProductDetailsAccordion({
     openAccordion: number | null;
     setOpenAccordion: (index: number | null) => void;
 }) {
+
+
+    const DEFAULT_FAQS = [
+        {
+            question: "Which occasions are suitable for your balloon decoration services?",
+            answer:
+                "We provide balloon decoration for birthdays, anniversaries, baby showers, proposals, welcoming a baby, surprise parties, corporate events, and all other special occasions.",
+        },
+        {
+            question: "How early should I book my balloon decoration service?",
+            answer:
+                "We recommend booking at least 1–2 days in advance. However, same-day bookings may be accepted depending on slot availability.",
+        },
+        {
+            question: "Can I customise the balloon decoration as per my theme?",
+            answer:
+                "Yes, we offer fully customizable balloon decoration based on your theme, colour preference, occasion, and budget.",
+        },
+        {
+            question: "Is it possible to reschedule or cancel my booking?",
+            answer:
+                "Rescheduling is possible based on availability. Cancellation depends on the decor status.",
+        },
+        {
+            question: "Do you provide last-minute or midnight decorations?",
+            answer:
+                "Yes, midnight and late-night decoration services are available for selected packages with prior confirmation.",
+        },
+        {
+            question: "What payment options are available for booking?",
+            answer:
+                "We accept UPI, debit cards, credit cards, net banking, and popular digital payment methods.",
+        },
+    ];
+
+    const DEFAULT_DELIVERY_DETAILS = [
+        "Images on the site are for reference purposes. Decorations may differ slightly in colour, design, or arrangement depending on material availability and venue conditions.",
+        "Our decoration professionals will arrive at your location at the selected time slot and complete the decoration as per the chosen package.",
+        "The decorator can wait for a maximum of 30 minutes at the venue. Delays beyond this may lead to service cancellation.",
+        "Customers must ensure timely access, necessary permissions (society or hotel), and provide a stool or ladder if required.",
+        "Any service-related concerns must be reported within 2 hours of decoration completion.",
+        "No cancellation or rescheduling requests will be accepted once the decoration process has started.",
+    ];
+
+    const DEFAULT_CARE_INFO = [
+        "To maintain balloon quality, avoid exposure to high temperatures or prolonged sunlight.",
+        "Decorations perform best in well-ventilated indoor spaces.",
+        "Once installed, decorations should remain undisturbed as repositioning may cause damage.",
+        "Adhesive materials are chosen to minimise surface impact; careful removal is advised.",
+        "Decorative props and accessories (excluding balloons) are provided temporarily and will be collected later.",
+    ];
+
+
+    const faqsToShow =
+        product.faqs && product.faqs.length > 0
+            ? product.faqs
+            : DEFAULT_FAQS;
+
+    const deliveryDetailsToShow =
+        product.deliveryDetails && product.deliveryDetails.length > 0
+            ? product.deliveryDetails
+            : DEFAULT_DELIVERY_DETAILS;
+
+    const careInfoToShow =
+        product.careInfo && product.careInfo.length > 0
+            ? product.careInfo
+            : DEFAULT_CARE_INFO;
+
     return (
         <div className="max-w-3xl mt-6">
             {/* About the Product */}
@@ -813,52 +878,46 @@ function ProductDetailsAccordion({
             </Accordion>
 
             {/* FAQs */}
-            {product.faqs.length > 0 && (
-                <Accordion
-                    title="FAQs"
-                    isOpen={openAccordion === 1}
-                    onClick={() => setOpenAccordion(openAccordion === 1 ? null : 1)}
-                >
-                    <div className="space-y-3">
-                        {product.faqs.map((faq, idx) => (
-                            <div key={idx}>
-                                <p className="font-semibold text-[13px]">{faq.question}</p>
-                                <p className="text-gray-700 text-[13px] mt-1">{faq.answer}</p>
-                            </div>
-                        ))}
-                    </div>
-                </Accordion>
-            )}
+            <Accordion
+                title="FAQs"
+                isOpen={openAccordion === 1}
+                onClick={() => setOpenAccordion(openAccordion === 1 ? null : 1)}
+            >
+                <div className="space-y-3">
+                    {faqsToShow.map((faq, idx) => (
+                        <div key={idx}>
+                            <p className="font-semibold text-[13px]">{faq.question}</p>
+                            <p className="text-gray-700 text-[13px] mt-1">{faq.answer}</p>
+                        </div>
+                    ))}
+                </div>
+            </Accordion>
 
             {/* Delivery Details */}
-            {product.deliveryDetails.length > 0 && (
-                <Accordion
-                    title="Delivery & Shipping"
-                    isOpen={openAccordion === 2}
-                    onClick={() => setOpenAccordion(openAccordion === 2 ? null : 2)}
-                >
-                    <ul className="list-disc ml-5 text-[13px] text-gray-700">
-                        {product.deliveryDetails.map((detail, idx) => (
-                            <li key={idx}>{detail}</li>
-                        ))}
-                    </ul>
-                </Accordion>
-            )}
+            <Accordion
+                title="Delivery & Shipping"
+                isOpen={openAccordion === 2}
+                onClick={() => setOpenAccordion(openAccordion === 2 ? null : 2)}
+            >
+                <ul className="list-disc ml-5 text-[13px] text-gray-700">
+                    {deliveryDetailsToShow.map((detail, idx) => (
+                        <li key={idx}>{detail}</li>
+                    ))}
+                </ul>
+            </Accordion>
 
             {/* Care Instructions */}
-            {product.careInfo.length > 0 && (
-                <Accordion
-                    title="Care Instructions"
-                    isOpen={openAccordion === 3}
-                    onClick={() => setOpenAccordion(openAccordion === 3 ? null : 3)}
-                >
-                    <ul className="list-disc ml-5 text-[13px] text-gray-700">
-                        {product.careInfo.map((care, idx) => (
-                            <li key={idx}>{care}</li>
-                        ))}
-                    </ul>
-                </Accordion>
-            )}
+            <Accordion
+                title="Care Instructions"
+                isOpen={openAccordion === 3}
+                onClick={() => setOpenAccordion(openAccordion === 3 ? null : 3)}
+            >
+                <ul className="list-disc ml-5 text-[13px] text-gray-700">
+                    {careInfoToShow.map((care, idx) => (
+                        <li key={idx}>{care}</li>
+                    ))}
+                </ul>
+            </Accordion>
 
             {/* Variants */}
             {product.variants.length > 0 && (
@@ -888,7 +947,7 @@ function ProductDetailsAccordion({
             )}
 
             {/* Tags */}
-            {product.product_tags && product.product_tags.length > 0 && (
+            {/* {product.product_tags && product.product_tags.length > 0 && (
                 <div className="mt-4 p-3 border-t border-[#DBDBDB]">
                     <p className="text-[15px] font-bold mb-2">Tags:</p>
                     <div className="flex flex-wrap gap-2">
@@ -902,148 +961,10 @@ function ProductDetailsAccordion({
                         ))}
                     </div>
                 </div>
-            )}
+            )} */}
         </div>
     );
 }
-
-// function ProductDetailsAccordion({
-//     product,
-//     openAccordion,
-//     setOpenAccordion,
-// }: {
-//     product: Product;
-//     openAccordion: number | null;
-//     setOpenAccordion: (index: number | null) => void;
-// }) {
-//     const tabs = [
-//         "Package Inclusion",
-//         "FAQs",
-//         "Delivery Details",
-//         "Care Info",
-//         "Options",
-//     ];
-
-//     return (
-//         <div className="max-w-3xl mt-6 bg-white border border-gray-200 rounded-xl">
-//             {/* Tabs Header */}
-//             <div className="flex gap-6 px-5 pt-4 border-b">
-//                 {tabs.map((tab, index) => (
-//                     <button
-//                         key={index}
-//                         onClick={() =>
-//                             setOpenAccordion(openAccordion === index ? null : index)
-//                         }
-//                         className={`relative pb-3 text-sm font-semibold whitespace-nowrap transition ${openAccordion === index
-//                             ? "text-[var(--pinkd)]"
-//                             : "text-gray-600 hover:text-gray-900"
-//                             }`}
-//                     >
-//                         {tab}
-
-//                         {openAccordion === index && (
-//                             <span className="absolute left-0 -bottom-[1px] w-full h-[2px] bg-[var(--pinkd)] rounded-full" />
-//                         )}
-//                     </button>
-//                 ))}
-//             </div>
-
-//             {/* Content */}
-//             <div className="p-5 text-[13px] text-gray-700">
-//                 {openAccordion === 0 && (
-//                     <>
-//                         <p className="whitespace-pre-line">
-//                             {product.description}
-//                         </p>
-
-//                         {product.packageInclusion.length > 0 && (
-//                             <ul className="list-disc ml-5 mt-3 space-y-1">
-//                                 {product.packageInclusion.map((item, idx) => (
-//                                     <li key={idx}>{item}</li>
-//                                 ))}
-//                             </ul>
-//                         )}
-//                     </>
-//                 )}
-
-//                 {openAccordion === 1 && product.faqs.length > 0 && (
-//                     <div className="space-y-4">
-//                         {product.faqs.map((faq, idx) => (
-//                             <div key={idx}>
-//                                 <p className="font-semibold">{faq.question}</p>
-//                                 <p className="mt-1">{faq.answer}</p>
-//                             </div>
-//                         ))}
-//                     </div>
-//                 )}
-
-//                 {openAccordion === 2 && product.deliveryDetails.length > 0 && (
-//                     <ul className="list-disc ml-5 space-y-1">
-//                         {product.deliveryDetails.map((detail, idx) => (
-//                             <li key={idx}>{detail}</li>
-//                         ))}
-//                     </ul>
-//                 )}
-
-//                 {openAccordion === 3 && product.careInfo.length > 0 && (
-//                     <ul className="list-disc ml-5 space-y-1">
-//                         {product.careInfo.map((care, idx) => (
-//                             <li key={idx}>{care}</li>
-//                         ))}
-//                     </ul>
-//                 )}
-
-//                 {openAccordion === 4 && product.variants.length > 0 && (
-//                     <div className="space-y-4">
-//                         {product.variants.map((variant, idx) => (
-//                             <div key={idx}>
-//                                 <p className="font-semibold mb-1">
-//                                     {variant.name}:
-//                                 </p>
-//                                 <div className="flex flex-wrap gap-2">
-//                                     {variant.options.map((option, optIdx) => (
-//                                         <span
-//                                             key={optIdx}
-//                                             className="px-3 py-1 bg-gray-100 rounded-full text-[12px]"
-//                                         >
-//                                             {option}
-//                                         </span>
-//                                     ))}
-//                                 </div>
-//                             </div>
-//                         ))}
-//                     </div>
-//                 )}
-
-//                 {product.product_tags?.length > 0 && (
-//                     <div className="">
-//                         <p className="text-[15px] font-bold mb-2 mt-3">Tags:</p>
-//                         <div className="flex flex-wrap gap-2">
-//                             {product.product_tags.map((tag, idx) => (
-//                                 <span
-//                                     key={idx}
-//                                     className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-[12px]"
-//                                 >
-//                                     #{tag}
-//                                 </span>
-//                             ))}
-//                         </div>
-//                     </div>
-//                 )}
-
-//             </div>
-
-
-//         </div>
-//     );
-// }
-
-
-
-
-
-// Accordion Component
-
 
 interface AccordionProps {
     title: string;
