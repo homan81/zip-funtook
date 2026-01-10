@@ -118,6 +118,10 @@ export default function ProductDetailPage() {
     const [status, setStatus] = useState<"available" | "not_available" | null>(null);
     const [productCities, setProductCities] = useState<string[]>([]);
 
+    const [filteredCities, setFilteredCities] = useState<string[]>([]);
+    const [showDropdown, setShowDropdown] = useState(false);
+
+
 
     const handleBookOrder = () => {
         // ❌ City empty
@@ -157,6 +161,17 @@ export default function ProductDetailPage() {
         router.push("/Your-Cart");
     };
 
+    // const checkCityAvailability = (value: string) => {
+    //     if (!value.trim()) {
+    //         setStatus(null);
+    //         return;
+    //     }
+
+    //     const isAvailable = productCities.includes(value.trim().toLowerCase());
+
+    //     setStatus(isAvailable ? "available" : "not_available");
+    // };
+
     const checkCityAvailability = (value: string) => {
         if (!value.trim()) {
             setStatus(null);
@@ -164,9 +179,9 @@ export default function ProductDetailPage() {
         }
 
         const isAvailable = productCities.includes(value.trim().toLowerCase());
-
         setStatus(isAvailable ? "available" : "not_available");
     };
+
 
     useEffect(() => {
         if (!slug) return;
@@ -336,49 +351,66 @@ export default function ProductDetailPage() {
                                 </svg>
                             </span>
 
-                            {/* <input
-                                type="text"
-                                value={city}
-                                onChange={(e) => {
-                                    const value = e.target.value;
-                                    setCity(value);
-                                    setError(null);
-                                    checkCityAvailability(value);
-                                }}
-                                placeholder="Type your city name..."
-                                className={`w-full pl-9 pr-3 py-2 rounded-lg text-sm outline-none
-                                    ${error
-                                        ? "bg-red-200"
-                                        : status === "available"
-                                            ? "bg-green-100"
-                                            : status === "not_available"
-                                                ? "bg-red-100"
-                                                : "bg-gray-100"
-                                    }
-                                `}
-                            /> */}
+                            <div className="relative w-full">
+                                {/* INPUT HERE */}
 
-                            <input
-                                type="text"
-                                value={city}
-                                onChange={(e) => {
-                                    const value = e.target.value;
-                                    setCity(value);
-                                    setError(null);
-                                    checkCityAvailability(value);
-                                }}
-                                placeholder="Type your city name..."
-                                className={`w-full pl-9 pr-3 py-2 rounded-lg text-sm outline-none
-                                    ${error
-                                        ? "bg-red-200"
-                                        : status === "available"
-                                            ? "bg-green-100"
-                                            : status === "not_available"
-                                                ? "bg-red-100"
-                                                : "bg-gray-100"
-                                    }
-                                `}
-                            />
+                                <input
+                                    type="text"
+                                    value={city}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        setCity(value);
+                                        setError(null);
+
+                                        if (!value.trim()) {
+                                            setFilteredCities([]);
+                                            setShowDropdown(false);
+                                            setStatus(null);
+                                            return;
+                                        }
+
+                                        const matches = productCities.filter((c) =>
+                                            c.toLowerCase().includes(value.toLowerCase())
+                                        );
+
+                                        setFilteredCities(matches);
+                                        setShowDropdown(true);
+                                        checkCityAvailability(value);
+                                    }}
+                                    onFocus={() => city && setShowDropdown(true)}
+                                    onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
+                                    placeholder="Type your city name..."
+                                    className={`w-full pr-3 py-2 rounded-lg text-sm outline-none
+    ${error
+                                            ? "bg-red-200"
+                                            : status === "available"
+                                                ? "bg-green-100"
+                                                : status === "not_available"
+                                                    ? "bg-red-100"
+                                                    : "bg-gray-100"
+                                        }
+  `}
+                                />
+
+                                {showDropdown && filteredCities.length > 0 && (
+                                    <ul className="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-md max-h-48 overflow-y-auto">
+                                        {filteredCities.map((cityName, index) => (
+                                            <li
+                                                key={index}
+                                                onMouseDown={() => {
+                                                    setCity(cityName);
+                                                    setShowDropdown(false);
+                                                    checkCityAvailability(cityName);
+                                                }}
+                                                className="px-3 py-2 cursor-pointer text-sm hover:bg-gray-100"
+                                            >
+                                                {cityName}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+
 
 
                         </div>
