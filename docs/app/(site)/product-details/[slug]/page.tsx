@@ -60,6 +60,8 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { useRouter } from 'next/navigation';
+import Image from "next/image";
+
 
 interface FAQ {
     question: string;
@@ -510,7 +512,7 @@ export default function ProductDetailPage() {
 
                     {/* Trusted Box */}
                     <div className="mt-10 space-y-10">
-                        <div className="border border-[#B8B8B8] bg-[#FCFCFC] rounded-2xl text-center space-y-3 shadow-sm">
+                        {/* <div className="border border-[#B8B8B8] bg-[#FCFCFC] rounded-2xl text-center space-y-3 shadow-sm">
                             <div>
                                 <p className="text-xl sm:text-2xl font-bold text-gray-800 m-0 mt-4">
                                     India’s Most Trusted
@@ -521,25 +523,142 @@ export default function ProductDetailPage() {
                                 </h1>
 
                                 <div className="flex flex-wrap justify-center gap-4 text-[14px] mt-3">
-                                    <span className="flex items-center gap-2">
-                                        <span className="text-green-500">🍃</span> Customized
-                                        Decoration
-                                    </span>
-                                    <span className="flex items-center gap-2">
-                                        <span className="text-green-500">🍃</span> Affordable
+                                    <div className="flex items-center gap-2">
+                                        <Image
+                                            src="/images/charm_circle-tick.svg"
+                                            alt="Eco friendly"
+                                            width={16}
+                                            height={16}
+                                        />
+                                        Customized Decoration
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-green-500"><Image
+                                            src="/images/charm_circle-tick.svg"
+                                            alt="Eco friendly"
+                                            width={16}
+                                            height={16}
+                                        /></span> Affordable
                                         Packages
-                                    </span>
-                                    <span className="flex items-center gap-2">
-                                        <span className="text-green-500">🍃</span> Eco-Friendly
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-green-500"><Image
+                                            src="/images/charm_circle-tick.svg"
+                                            alt="Eco friendly"
+                                            width={16}
+                                            height={16}
+                                        /></span> Eco-Friendly
                                         Materials
-                                    </span>
-                                    <span className="hidden sm:flex items-center gap-2">
-                                        <span className="text-green-500">🍃</span> 24×7 Support
-                                    </span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-green-500"><Image
+                                            src="/images/charm_circle-tick.svg"
+                                            alt="Eco friendly"
+                                            width={16}
+                                            height={16}
+                                        /></span> 24×7 Support
+                                    </div>
                                 </div>
                             </div>
 
                             <button className="bg-[#FDB7C4] text-[#FF2181] px-5 py-2 rounded-bl-2xl rounded-br-2xl text-[17px] font-bold mt-4 w-full">
+                                Explore Our Recent Works →
+                            </button>
+                        </div> */}
+
+                        <div
+                            className="
+      border border-[#B8B8B8]
+      bg-[#FCFCFC]
+      rounded-2xl
+      shadow-sm
+      overflow-hidden
+    "
+                        >
+                            <div className="text-center space-y-3 px-4 sm:px-8 py-5">
+                                <p className="text-lg sm:text-2xl font-bold text-gray-800">
+                                    India’s Most Trusted
+                                </p>
+
+                                <h1 className="text-xl sm:text-3xl font-bold text-[#FC6E88]">
+                                    Funtook Decors
+                                </h1>
+
+                                <div className="flex align-center">
+
+                                    <div
+                                        className="
+          flex flex-wrap
+           sm:justify-center md:justify-start
+          gap-x-6 gap-y-3
+          text-[13px] sm:text-[14px]
+          mt-4
+        "
+                                    >
+                                        {[
+                                            "Customized Decoration",
+                                            "Affordable Packages",
+                                            "Eco-Friendly Materials",
+                                            "24×7 Support",
+                                        ].map((text, i) => (
+                                            <div
+                                                key={i}
+                                                className="
+              flex items-center gap-2
+              w-full sm:w-[48%] md:w-auto
+              justify-center md:justify-start
+            "
+                                            >
+                                                <Image
+                                                    src="/images/charm_circle-tick.svg"
+                                                    alt="Tick"
+                                                    width={16}
+                                                    height={16}
+                                                    className="shrink-0"
+                                                />
+                                                <span className="leading-tight text-gray-700">
+                                                    {text}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    {/* <div className="flex justify-center w-[250px]">
+                                        <Image
+                                            src="/images/person-img.svg"
+                                            alt="Person"
+                                            width={1000}
+                                            height={1000}
+                                            className="object-cover w-full h-auto"
+                                        />
+                                    </div> */}
+
+                                    <div className="flex justify-center w-[250px] min-[500px]:hidden">
+                                        <Image
+                                            src="/images/person-img.svg"
+                                            alt="Person"
+                                            width={1000}
+                                            height={1000}
+                                            className="object-cover w-full h-auto"
+                                        />
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <button
+                                className="
+        w-full
+        bg-[#FDB7C4]
+        text-[#FF2181]
+        py-3
+        text-[15px] sm:text-[17px]
+        font-bold
+        rounded-b-2xl
+        hover:bg-[#ff9fb3]
+        transition
+      "
+                            >
                                 Explore Our Recent Works →
                             </button>
                         </div>
@@ -618,10 +737,49 @@ export default function ProductDetailPage() {
                             </div>
                         </div>
 
-                        <input
+                        {/* <input
                             placeholder="Write a review…"
                             className="w-full border border-green-300 rounded-lg p-3 outline-none"
-                        />
+                        /> */}
+
+                        <div className="relative w-full max-w-full sm:max-w-xl">
+                            <input
+                                type="text"
+                                placeholder="Write a review…"
+                                className="
+      w-full
+      border border-green-300
+      rounded-lg
+      p-3
+      pr-24
+      outline-none
+      text-sm sm:text-base
+      focus:border-green-500
+    "
+                            />
+
+                            <button
+                                type="submit"
+                                className="
+      absolute
+      right-1.5
+      top-1/2
+      -translate-y-1/2
+      bg-[#F92B51]
+      text-white
+      px-4 sm:px-5
+      py-1.5 sm:py-2
+      rounded-md
+      text-xs sm:text-sm
+      font-medium
+      transition
+    "
+                            >
+                                Submit
+                            </button>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -636,7 +794,7 @@ export default function ProductDetailPage() {
                 </div>
             </div>
 
-            <div className="mt-4 overflow-x-scroll md:overflow-hidden">
+            {/* <div className="mt-4 overflow-x-scroll md:overflow-hidden">
                 <div className="min-w-full md:min-w-[700px] *:w-[25%] flex w-full gap-4">
                     {[1, 2, 3, 4].map((i) => (
                         <div key={i} className="min-w-[150px]">
@@ -664,7 +822,47 @@ export default function ProductDetailPage() {
                         </div>
                     ))}
                 </div>
+            </div> */}
+
+            <div className="mt-4">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    {[1, 2, 3, 4].map((i) => (
+                        <div key={i} className="cursor-pointer">
+                            {/* Image */}
+                            <img
+                                src="/images/room decor.svg"
+                                alt="Product"
+                                className="w-full aspect-square object-cover rounded-lg mb-4"
+                            />
+
+                            {/* Content */}
+                            <div className="px-2">
+                                {/* Rating */}
+                                <span className="text-yellow-400 block">★★★★★</span>
+
+                                {/* Title */}
+                                <p className="text-sm md:text-base lg:text-lg font-medium mb-2 line-clamp-2">
+                                    Colorful Magical Balloon
+                                </p>
+
+                                {/* Price Row */}
+                                <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="font-semibold text-lg">₹2999</span>
+
+                                    <span className="text-gray-400 line-through text-sm">
+                                        ₹3699
+                                    </span>
+
+                                    <span className="border border-[#93F8C5] rounded-xl px-2 py-0.5 text-xs font-medium text-[#016136] bg-linear-to-r from-[#91F8C5] to-white">
+                                        17% OFF
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
+
 
             {/* OTHER CATEGORIES */}
             <div className="w-full px-4 py-3 flex items-center justify-between mt-4">
@@ -676,7 +874,7 @@ export default function ProductDetailPage() {
                 </div>
             </div>
 
-            <div className="mt-4 overflow-x-scroll md:overflow-hidden">
+            {/* <div className="mt-4 overflow-x-scroll md:overflow-hidden">
                 <div className="min-w-full md:min-w-[700px] *:w-[25%] flex w-full gap-4">
                     {[1, 2, 3, 4].map((i) => (
                         <div key={i} className="min-w-[150px]">
@@ -704,7 +902,47 @@ export default function ProductDetailPage() {
                         </div>
                     ))}
                 </div>
+            </div> */}
+
+            <div className="mt-4">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    {[1, 2, 3, 4].map((i) => (
+                        <div key={i} className="cursor-pointer">
+                            {/* Image */}
+                            <img
+                                src="/images/room decor.svg"
+                                alt="Product"
+                                className="w-full aspect-square object-cover rounded-lg mb-4"
+                            />
+
+                            {/* Content */}
+                            <div className="px-2">
+                                {/* Rating */}
+                                <span className="text-yellow-400 block">★★★★★</span>
+
+                                {/* Title */}
+                                <p className="text-sm md:text-base lg:text-lg font-medium mb-2 line-clamp-2">
+                                    Colorful Magical Balloon
+                                </p>
+
+                                {/* Price Row */}
+                                <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="font-semibold text-lg">₹2999</span>
+
+                                    <span className="text-gray-400 line-through text-sm">
+                                        ₹3699
+                                    </span>
+
+                                    <span className="border border-[#93F8C5] rounded-xl px-2 py-0.5 text-xs font-medium text-[#016136] bg-linear-to-r from-[#91F8C5] to-white">
+                                        17% OFF
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
+
 
         </div >
     );
