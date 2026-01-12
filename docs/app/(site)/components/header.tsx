@@ -896,7 +896,7 @@ export default function Header() {
         <div className="border-t border-b border-gray-300 py-3 lg:block hidden">
           {/* Desktop Menu */}
           <div className="hidden sm:flex sm:items-center sm:justify-center space-x-4 *:px-3 *:py-1 *:text-black *:hover:text-(--pinkd) *:transition-all *:ease-in-out">
-            <Link href="/view-all?category=Birthday%20Decoration">
+            <Link href="/view-all?category=Birthday%20Decorations">
               Birthday
             </Link>
             <Link href="/view-all?category=Anniversary%20Decoration">Anniversary</Link>
@@ -908,7 +908,7 @@ export default function Header() {
         {/* Mobile Menu */}
         <div className={`${isOpen ? "block" : "hidden"} lg:hidden`}>
           <div className="px-2 pt-2 pb-3 space-y-1 *:text-black *:block *:px-3 *:py-2 *:rounded-md *:text-base *:font-medium *:hover:bg-gray-700">
-            <Link href="/view-all?category=Birthday%20Decoration">Birthday</Link>
+            <Link href="/view-all?category=Birthday%20Decorations">Birthday</Link>
             <Link href="/view-all?category=Anniversary%20Decoration">Anniversary</Link>
             <Link href="/view-all?category=Baby%20Welcome">Baby Welcome</Link>
             <Link href="/view-all">Other Categories</Link>

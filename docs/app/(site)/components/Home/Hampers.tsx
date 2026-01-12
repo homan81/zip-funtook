@@ -275,6 +275,7 @@ interface Product {
   productImage: string | null;
   price: number;
   sellingPrice: number;
+  category: string;
 }
 
 /* =======================
@@ -326,8 +327,12 @@ export default function Balloon_Hampers() {
         id="BalloonHampers"
         className="flex justify-between items-center mb-5 scroll-mt-24"
       >
-        <h3 className="text-[16px] sm:text-[18px] lg:text-[27px] font-semibold">
+        {/* <h3 className="text-[16px] sm:text-[18px] lg:text-[27px] font-semibold">
           Balloon Hampers
+        </h3> */}
+
+        <h3 className="text-[16px] sm:text-[18px] lg:text-[27px] font-semibold">
+          {products.length > 0 ? products[0].category : "Loading..."}
         </h3>
 
         <Link
@@ -346,11 +351,17 @@ export default function Balloon_Hampers() {
             product.sellingPrice
           );
 
+          // const imageUrl =
+          //   product.productImage &&
+          //   product.productImage.startsWith("/uploads/")
+          //     ? product.productImage
+          //     : "/assets/sectionimages/ballon1.svg";
+
           const imageUrl =
             product.productImage &&
-            product.productImage.startsWith("/uploads/")
-              ? product.productImage
-              : "/assets/sectionimages/ballon1.svg";
+              product.productImage.trim() !== ""
+              ? product.productImage // show real image if available
+              : "/assets/home/birthday_deco/1.jpg"; // fallback image
 
           return (
             <Link

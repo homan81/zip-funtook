@@ -346,13 +346,19 @@ export default function AnniversaryDecoration() {
       product.sellingPrice
     );
 
+    // const imageUrl =
+    //   product.productImage &&
+    //     product.productImage.trim() !== "" &&
+    //     product.productImage.startsWith("/uploads/")
+    //     ? product.productImage
+    //     : "/assets/home/birthday_deco/1.jpg";
+
+
     const imageUrl =
       product.productImage &&
-        product.productImage.trim() !== "" &&
-        product.productImage.startsWith("/uploads/")
-        ? product.productImage
-        : "/assets/home/birthday_deco/1.jpg";
-
+        product.productImage.trim() !== ""
+        ? product.productImage // show real image if available
+        : "/assets/home/birthday_deco/1.jpg"; // fallback image
 
     return (
       <Link

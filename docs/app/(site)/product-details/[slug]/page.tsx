@@ -122,7 +122,19 @@ export default function ProductDetailPage() {
 
     const [filteredCities, setFilteredCities] = useState<string[]>([]);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [allProducts, setAllProducts] = useState<any[]>([]);
+    useEffect(() => {
+        const fetchAllProducts = async () => {
+            const res = await fetch("/api/products/");
+            const data = await res.json();
 
+            if (data.success) {
+                setAllProducts(data.products);
+            }
+        };
+
+        fetchAllProducts();
+    }, []);
 
 
     const handleBookOrder = () => {
@@ -184,6 +196,28 @@ export default function ProductDetailPage() {
         setStatus(isAvailable ? "available" : "not_available");
     };
 
+
+    const otherProducts = allProducts.filter(
+        (item) => item.id !== product?.id
+    );
+
+    const otherProductsLimited = otherProducts.slice(0, 4);
+    useEffect(() => {
+        const fetchAllProducts = async () => {
+            try {
+                const res = await fetch("/api/products/");
+                const data = await res.json();
+
+                if (data.success) {
+                    setAllProducts(data.products);
+                }
+            } catch (err) {
+                console.error("Error fetching products", err);
+            }
+        };
+
+        fetchAllProducts();
+    }, []);
     useEffect(() => {
         if (!slug) return;
 
@@ -193,7 +227,7 @@ export default function ProductDetailPage() {
 
                 const response = await fetch(`/api/products/${slug}`);
                 const data = await response.json();
-
+                console.log('kjfjkkejkrejgkejg', response)
                 if (data.success) {
                     setProduct(data.product);
 
@@ -482,13 +516,32 @@ export default function ProductDetailPage() {
                         {/* Buttons */}
                         <div className="p-5 flex gap-5 justify-center">
                             {/* WhatsApp */}
-                            <button className="flex items-center justify-center gap-2 w-full bg-white text-[#199E23] border-2 border-[#199E23] sm:px-5 sm:py-2 rounded shadow text-[12px] sm:text:[18px] p-[5px]">
+                            {/* <button className="flex items-center justify-center gap-2 w-full bg-white text-[#199E23] border-2 border-[#199E23] sm:px-5 sm:py-2 rounded shadow text-[12px] sm:text:[18px] p-[5px]">
                                 <img
                                     src="/images/logos_whatsapp-icon.svg"
                                     className="w-5 h-5"
                                 />
                                 Whatsapp
+                            </button> */}
+
+                            <button
+                                onClick={() => {
+                                    const phone = "919876543210";
+                                    const message = encodeURIComponent(
+                                        "Hi, I am interested in this product."
+                                    );
+                                    window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+                                }}
+                                className="flex items-center justify-center gap-2 w-full bg-white text-[#199E23] border-2 border-[#199E23] sm:px-5 sm:py-2 rounded shadow text-[12px] sm:text-[18px] p-[5px]"
+                            >
+                                <img
+                                    src="/images/logos_whatsapp-icon.svg"
+                                    className="w-5 h-5"
+                                    alt="WhatsApp"
+                                />
+                                Whatsapp
                             </button>
+
 
                             {/* Call Button */}
                             {/* <button className="flex items-center justify-center w-full bg-(--pinkd) text-white sm:px-5 sm:py-2 rounded shadow text-[12px] sm:text:[18px] p-[5px]">
@@ -776,14 +829,29 @@ export default function ProductDetailPage() {
             </div>
 
             {/* SIMILAR PRODUCTS */}
-            <div className="w-full px-4 py-3 flex items-center justify-between mt-4">
+            {/* <div className="w-full px-4 py-3 flex items-center justify-between mt-4">
                 <p className="text-lg font-bold text-gray-700">Similar products</p>
 
                 <div className="flex items-center gap-2 cursor-pointer">
                     <img src="/images/left-line.svg" className="w-[26px]" />
                     <img src="/images/right-line.svg" className="w-[26px]" />
                 </div>
+            </div> */}
+
+            <div className="w-full px-4 py-3 flex items-center justify-between mt-4">
+                <p className="text-lg font-bold text-gray-700">
+                    Similar Products
+                </p>
+
+                <Link
+                    href={`/view-all?category=${encodeURIComponent(product?.category_name ?? "")}`}
+                    className="text-(--pinkd) text-sm underline"
+                >
+                    View All
+                </Link>
+
             </div>
+
 
             {/* <div className="mt-4 overflow-x-scroll md:overflow-hidden">
                 <div className="min-w-full md:min-w-[700px] *:w-[25%] flex w-full gap-4">
@@ -817,51 +885,73 @@ export default function ProductDetailPage() {
 
             <div className="mt-4">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    {[1, 2, 3, 4].map((i) => (
-                        <div key={i} className="cursor-pointer">
-                            {/* Image */}
-                            <img
-                                src="/images/room decor.svg"
-                                alt="Product"
-                                className="w-full aspect-square object-cover rounded-lg mb-4"
-                            />
+                    {product?.gallery?.map((item: any, index: number) => {
+                        const imageUrl =
+                            item?.image && item.image.trim() !== ""
+                                ? item.image
+                                : "/assets/home/birthday_deco/1.jpg";
 
-                            {/* Content */}
-                            <div className="px-2">
-                                {/* Rating */}
-                                <span className="text-yellow-400 block">★★★★★</span>
+                        return (
+                            <Link
+                                key={index}
+                                href={`/product-details/${product.id}`}
+                                className="cursor-pointer"
+                            >
+                                {/* Image */}
+                                <img
+                                    src={imageUrl}
+                                    alt={product.productName}
+                                    className="w-full aspect-square object-cover rounded-lg mb-4"
+                                />
 
-                                {/* Title */}
-                                <p className="text-sm md:text-base lg:text-lg font-medium mb-2 line-clamp-2">
-                                    Colorful Magical Balloon
-                                </p>
+                                {/* Content */}
+                                <div className="px-2">
+                                    {/* Rating */}
+                                    <span className="text-yellow-400 block">★★★★★</span>
 
-                                {/* Price Row */}
-                                <div className="flex items-center gap-2 flex-wrap">
-                                    <span className="font-semibold text-lg">₹2999</span>
+                                    {/* Title */}
+                                    <p className="text-sm md:text-base lg:text-lg font-medium mb-2 line-clamp-2">
+                                        {product.productName}
+                                    </p>
 
-                                    <span className="text-gray-400 line-through text-sm">
-                                        ₹3699
-                                    </span>
+                                    {/* Price */}
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                        <span className="font-semibold text-lg">
+                                            ₹{product.sellingPrice}
+                                        </span>
 
-                                    <span className="border border-[#93F8C5] rounded-xl px-2 py-0.5 text-xs font-medium text-[#016136] bg-linear-to-r from-[#91F8C5] to-white">
-                                        17% OFF
-                                    </span>
+                                        {product.price > product.sellingPrice && (
+                                            <>
+                                                <span className="text-gray-400 line-through text-sm">
+                                                    ₹{product.price}
+                                                </span>
+
+                                                {product.discountPercent && (
+                                                    <span className="border border-[#93F8C5] rounded-xl px-2 py-0.5 text-xs font-medium text-[#016136] bg-linear-to-r from-[#91F8C5] to-white">
+                                                        {product.discountPercent}% OFF
+                                                    </span>
+                                                )}
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    ))}
+                            </Link>
+                        );
+                    })}
                 </div>
             </div>
+
 
             {/* OTHER CATEGORIES */}
             <div className="w-full px-4 py-3 flex items-center justify-between mt-4">
                 <p className="text-lg font-bold text-gray-700">Other categories</p>
 
-                <div className="flex items-center gap-2 cursor-pointer">
-                    <img src="/images/left-line.svg" className="w-[26px]" />
-                    <img src="/images/right-line.svg" className="w-[26px]" />
-                </div>
+                <Link
+                    href={`/view-all?category=${encodeURIComponent(product?.category_name ?? "")}`}
+                    className="text-(--pinkd) text-sm underline"
+                >
+                    View All
+                </Link>
             </div>
 
             {/* <div className="mt-4 overflow-x-scroll md:overflow-hidden">
@@ -894,45 +984,99 @@ export default function ProductDetailPage() {
                 </div>
             </div> */}
 
-            <div className="mt-4">
+            {/* <div className="mt-4">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    {[1, 2, 3, 4].map((i) => (
-                        <div key={i} className="cursor-pointer">
-                            {/* Image */}
+                    {otherProductsLimited.map((item) => (
+                        <div key={item.id} className="cursor-pointer">
                             <img
-                                src="/images/room decor.svg"
-                                alt="Product"
+                                src={
+                                    item.productImage ||
+                                    (Array.isArray(item.gallery) && item.gallery.length > 0
+                                        ? item.gallery[0]
+                                        : "/images/placeholder.png")
+                                }
+                                alt={item.productName}
                                 className="w-full aspect-square object-cover rounded-lg mb-4"
                             />
 
-                            {/* Content */}
                             <div className="px-2">
-                                {/* Rating */}
                                 <span className="text-yellow-400 block">★★★★★</span>
 
-                                {/* Title */}
                                 <p className="text-sm md:text-base lg:text-lg font-medium mb-2 line-clamp-2">
-                                    Colorful Magical Balloon
+                                    {item.productName}
                                 </p>
 
-                                {/* Price Row */}
                                 <div className="flex items-center gap-2 flex-wrap">
-                                    <span className="font-semibold text-lg">₹2999</span>
-
-                                    <span className="text-gray-400 line-through text-sm">
-                                        ₹3699
+                                    <span className="font-semibold text-lg">
+                                        ₹{item.sellingPrice}
                                     </span>
 
-                                    <span className="border border-[#93F8C5] rounded-xl px-2 py-0.5 text-xs font-medium text-[#016136] bg-linear-to-r from-[#91F8C5] to-white">
-                                        17% OFF
-                                    </span>
+                                    {item.price && (
+                                        <span className="text-gray-400 line-through text-sm">
+                                            ₹{item.price}
+                                        </span>
+                                    )}
+
+                                    {Number(item.discountPercent) > 0 && (
+                                        <span className="border border-[#93F8C5] rounded-xl px-2 py-0.5 text-xs font-medium text-[#016136] bg-linear-to-r from-[#91F8C5] to-white">
+                                            {item.discountPercent}% OFF
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
-            </div>
+            </div> */}
 
+            <div className="mt-4">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    {otherProductsLimited.map((item) => (
+                        <Link
+                            key={item.id}
+                            href={`/view-all?category=${encodeURIComponent(item.category_name ?? "")}`}
+                            className="cursor-pointer block"
+                        >
+                            <img
+                                src={
+                                    item.productImage ||
+                                    (Array.isArray(item.gallery) && item.gallery.length > 0
+                                        ? item.gallery[0].image
+                                        : "/images/placeholder.png")
+                                }
+                                alt={item.productName}
+                                className="w-full aspect-square object-cover rounded-lg mb-4"
+                            />
+
+                            <div className="px-2">
+                                <span className="text-yellow-400 block">★★★★★</span>
+
+                                <p className="text-sm md:text-base lg:text-lg font-medium mb-2 line-clamp-2">
+                                    {item.productName}
+                                </p>
+
+                                <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="font-semibold text-lg">
+                                        ₹{item.sellingPrice}
+                                    </span>
+
+                                    {item.price && (
+                                        <span className="text-gray-400 line-through text-sm">
+                                            ₹{item.price}
+                                        </span>
+                                    )}
+
+                                    {Number(item.discountPercent) > 0 && (
+                                        <span className="border border-[#93F8C5] rounded-xl px-2 py-0.5 text-xs font-medium text-[#016136] bg-linear-to-r from-[#91F8C5] to-white">
+                                            {item.discountPercent}% OFF
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </div>
 
         </div >
     );

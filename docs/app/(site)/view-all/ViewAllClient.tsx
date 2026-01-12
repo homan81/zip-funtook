@@ -139,7 +139,7 @@ export default function ViewAllClient() {
     lg:max-w-[230px]
     aspect-square
     transition-transform
-    ${categoryFromUrl === category ? "ring-2 ring-[#FC6E88]" : ""}
+    ${categoryFromUrl === category}
   `}
                             >
 

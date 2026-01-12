@@ -10,9 +10,9 @@ import "swiper/css/effect-coverflow";
 
 import Image from "next/image";
 const slides = [
-  "/assets/home/heroslider/banerimages_2.png",
-  "/assets/home/heroslider/banerimages_1.png",
-  "/assets/home/heroslider/banerimages_2.png",
+  "/assets/home/heroslider/banerimages_2.webp",
+  "/assets/home/heroslider/banerimages_1.webp",
+  "/assets/home/heroslider/banerimages_2.webp",
 ];
 
 // duplicate
