@@ -361,9 +361,11 @@ export default function BirthdayDeco() {
 
     const imageUrl =
       product.productImage &&
+        product.productImage.trim() !== "" &&
         product.productImage.startsWith("/uploads/")
         ? product.productImage
         : "/assets/home/birthday_deco/1.jpg";
+
 
     return (
       <Link
@@ -569,7 +571,7 @@ export default function BirthdayDeco() {
       {/* Book_Decors Section */}
       <Book_Decors />
 
-      <Mobilebottomtabs/>
+      <Mobilebottomtabs />
 
     </div>
   );

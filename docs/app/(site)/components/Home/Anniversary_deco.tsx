@@ -348,9 +348,11 @@ export default function AnniversaryDecoration() {
 
     const imageUrl =
       product.productImage &&
-      product.productImage.startsWith("/uploads/")
+        product.productImage.trim() !== "" &&
+        product.productImage.startsWith("/uploads/")
         ? product.productImage
-        : "/assets/home/explore/aniversary_deco.jpg";
+        : "/assets/home/birthday_deco/1.jpg";
+
 
     return (
       <Link

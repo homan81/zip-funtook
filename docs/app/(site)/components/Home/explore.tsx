@@ -35,7 +35,7 @@ export default function Explore() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <p>Anniversary Decoration</p>
+            <p>Birthday Decorations</p>
           </div>
           <div>
             <div
@@ -71,7 +71,7 @@ export default function Explore() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <p>Anniversary Decoration</p>
+            <p>Welcome Baby Decoration</p>
           </div>
           <div>
             <div
@@ -89,7 +89,7 @@ export default function Explore() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <p>Anniversary Decoration</p>
+            <p>Baby Shower Decoration</p>
           </div>
           <div>
             <div
@@ -107,7 +107,7 @@ export default function Explore() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <p>Anniversary Decoration</p>
+            <p>Balloon Hampers</p>
           </div>
           <div>
             <div
@@ -125,7 +125,7 @@ export default function Explore() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <p>Anniversary Decoration</p>
+            <p>Surprising Loved Decoration</p>
           </div>
         </div>
       </div>

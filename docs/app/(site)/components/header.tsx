@@ -550,15 +550,18 @@ export default function Header() {
         </div>
         <div className="flex justify-between items-center w-full *:lg:w-[33.3%]">
           <div>
-            <div className="sm:max-w-[200px] max-w-[100px]">
-              <Image
-                src="/assets/funtook-logo.svg"
-                alt="Funtook"
-                className="w-full h-auto"
-                width={500}
-                height={500}
-              />
-            </div>
+            <Link href="/" className="inline-block">
+              <div className="sm:max-w-[200px] max-w-[100px] cursor-pointer">
+                <Image
+                  src="/assets/funtook-logo.svg"
+                  alt="Funtook"
+                  className="w-full h-auto"
+                  width={500}
+                  height={500}
+                  priority
+                />
+              </div>
+            </Link>
           </div>
 
           <div className="w-full max-w-md lg:block hidden">

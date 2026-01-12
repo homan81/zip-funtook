@@ -320,9 +320,11 @@ export default function WelcomeBabyDecoration() {
 
     const imageUrl =
       product.productImage &&
-      product.productImage.startsWith("/uploads/")
+        product.productImage.trim() !== "" &&
+        product.productImage.startsWith("/uploads/")
         ? product.productImage
-        : "/assets/sectionimages/welcome.svg";
+        : "/assets/home/birthday_deco/1.jpg";
+
 
     return (
       <Link

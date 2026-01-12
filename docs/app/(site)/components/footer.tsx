@@ -58,7 +58,7 @@ export default function Footer() {
             </li>
             <li>
               <Link href="/recent-work">Recent Work</Link>
-            </li>
+            </li> 
           </ul>
         </div>
 
@@ -103,7 +103,7 @@ export default function Footer() {
         {/* CONTACT */}
         <div>
           <p className="text-sm text-gray-300">info@funtook.in</p>
-          <p className="text-sm text-gray-300">+91 9508638307</p>
+          <p className="text-sm text-gray-300">+91 9955997363</p>
         </div>
       </div>
 

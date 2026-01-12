@@ -87,7 +87,7 @@ export default function contactus() {
               <div>
                 <h4 className="font-semibold text-xs sm:text-sm">Email</h4>
                 <p className="text-xs sm:text-sm text-gray-600">
-                  info@turntoobix.com
+                  info@funtook.in
                 </p>
               </div>
             </div>
@@ -110,7 +110,7 @@ export default function contactus() {
               </div>
               <div>
                 <h4 className="font-semibold text-xs sm:text-sm">Address</h4>
-                <p className="text-xs sm:text-sm text-gray-600">Patna, Bihar</p>
+                <p className="text-xs sm:text-sm text-gray-600">Kankarbagh, Near Pc Colony Infront of First Cry Shop, Patna, Bihar (800020).</p>
               </div>
             </div>
           </div>

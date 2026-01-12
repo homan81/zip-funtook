@@ -184,7 +184,6 @@ export default function ProductDetailPage() {
         setStatus(isAvailable ? "available" : "not_available");
     };
 
-
     useEffect(() => {
         if (!slug) return;
 
@@ -217,7 +216,6 @@ export default function ProductDetailPage() {
 
         fetchProduct();
     }, [slug]);
-
 
     if (loading) {
         return (
@@ -382,8 +380,8 @@ export default function ProductDetailPage() {
                                     onFocus={() => city && setShowDropdown(true)}
                                     onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
                                     placeholder="Type your city name..."
-                                    className={`w-full pr-3 py-2 rounded-lg text-sm outline-none
-    ${error
+                                    className={`w-full p-2 rounded-lg text-sm outline-none
+                                        ${error
                                             ? "bg-red-200"
                                             : status === "available"
                                                 ? "bg-green-100"
@@ -391,7 +389,7 @@ export default function ProductDetailPage() {
                                                     ? "bg-red-100"
                                                     : "bg-gray-100"
                                         }
-  `}
+                                    `}
                                 />
 
                                 {showDropdown && filteredCities.length > 0 && (
@@ -412,9 +410,6 @@ export default function ProductDetailPage() {
                                     </ul>
                                 )}
                             </div>
-
-
-
                         </div>
                         {status === "available" && (
                             <p className="text-green-600 text-xs mt-2">
@@ -427,7 +422,6 @@ export default function ProductDetailPage() {
                                 ❌ Service not available in this city
                             </p>
                         )}
-
                     </div>
 
                     {/* Product Details Accordion */}
@@ -568,12 +562,12 @@ export default function ProductDetailPage() {
 
                         <div
                             className="
-      border border-[#B8B8B8]
-      bg-[#FCFCFC]
-      rounded-2xl
-      shadow-sm
-      overflow-hidden
-    "
+                            border border-[#B8B8B8]
+                            bg-[#FCFCFC]
+                            rounded-2xl
+                            shadow-sm
+                            overflow-hidden
+                            "
                         >
                             <div className="text-center space-y-3 px-4 sm:px-8 py-5">
                                 <p className="text-lg sm:text-2xl font-bold text-gray-800">
@@ -588,12 +582,12 @@ export default function ProductDetailPage() {
 
                                     <div
                                         className="
-          flex flex-wrap
-           sm:justify-center md:justify-start
-          gap-x-6 gap-y-3
-          text-[13px] sm:text-[14px]
-          mt-4
-        "
+                                        flex flex-wrap
+                                        sm:justify-center md:justify-start
+                                        gap-x-6 gap-y-3
+                                        text-[13px] sm:text-[14px]
+                                        mt-4
+                                        "
                                     >
                                         {[
                                             "Customized Decoration",
@@ -604,10 +598,10 @@ export default function ProductDetailPage() {
                                             <div
                                                 key={i}
                                                 className="
-              flex items-center gap-2
-              w-full sm:w-[48%] md:w-auto
-              justify-center md:justify-start
-            "
+                                                flex items-center gap-2
+                                                w-full sm:w-[48%] md:w-auto
+                                                justify-center md:justify-start
+                                                "
                                             >
                                                 <Image
                                                     src="/images/charm_circle-tick.svg"
@@ -642,22 +636,21 @@ export default function ProductDetailPage() {
                                         />
                                     </div>
 
-
                                 </div>
                             </div>
 
                             <button
                                 className="
-        w-full
-        bg-[#FDB7C4]
-        text-[#FF2181]
-        py-3
-        text-[15px] sm:text-[17px]
-        font-bold
-        rounded-b-2xl
-        hover:bg-[#ff9fb3]
-        transition
-      "
+                                w-full
+                                bg-[#FDB7C4]
+                                text-[#FF2181]
+                                py-3
+                                text-[15px] sm:text-[17px]
+                                font-bold
+                                rounded-b-2xl
+                                hover:bg-[#ff9fb3]
+                                transition
+                            "
                             >
                                 Explore Our Recent Works →
                             </button>
@@ -747,38 +740,36 @@ export default function ProductDetailPage() {
                                 type="text"
                                 placeholder="Write a review…"
                                 className="
-      w-full
-      border border-green-300
-      rounded-lg
-      p-3
-      pr-24
-      outline-none
-      text-sm sm:text-base
-      focus:border-green-500
-    "
+                                w-full
+                                border border-green-300
+                                rounded-lg
+                                p-3
+                                pr-24
+                                outline-none
+                                text-sm sm:text-base
+                                focus:border-green-500
+                                "
                             />
-
                             <button
                                 type="submit"
                                 className="
-      absolute
-      right-1.5
-      top-1/2
-      -translate-y-1/2
-      bg-[#F92B51]
-      text-white
-      px-4 sm:px-5
-      py-1.5 sm:py-2
-      rounded-md
-      text-xs sm:text-sm
-      font-medium
-      transition
-    "
+                                    absolute
+                                    right-1.5
+                                    top-1/2
+                                    -translate-y-1/2
+                                    bg-[#F92B51]
+                                    text-white
+                                    px-4 sm:px-5
+                                    py-1.5 sm:py-2
+                                    rounded-md
+                                    text-xs sm:text-sm
+                                    font-medium
+                                    transition
+                                "
                             >
                                 Submit
                             </button>
                         </div>
-
 
                     </div>
                 </div>
@@ -862,7 +853,6 @@ export default function ProductDetailPage() {
                     ))}
                 </div>
             </div>
-
 
             {/* OTHER CATEGORIES */}
             <div className="w-full px-4 py-3 flex items-center justify-between mt-4">
