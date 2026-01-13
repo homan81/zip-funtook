@@ -371,10 +371,32 @@ import Image from "next/image";
 import { HiUser, HiMail, HiLockClosed } from "react-icons/hi";
 import { HiX } from "react-icons/hi";
 
+
+interface Category {
+  id: number;
+  name: string;
+  displayLabel?: string; // Interface updated to prevent the error
+}
+
+
+// interface Category {
+//   id: number;
+//   name: string;
+// }
+
+// Define exactly what a Navbar item looks like
+
+
+interface NavItem extends Category {
+  displayLabel: string; // Not optional here, because we are providing it
+}
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -504,14 +526,129 @@ export default function Header() {
     }
   };
 
+  // const navConfig = [
+  //   { id: 12, label: "Birthday Decorations" },
+  //   { id: 15, label: "Baby Shower" },
+  //   { id: 16, label: "Newborn Welcome" },
+  //   { id: 17, label: "Kids Special" },
+  //   { id: 22, label: "Wedding Special" },
+  //   { id: 30, label: "Corporate Events" },
+  //   { id: 35, label: "Car Boot" },
+  //   { id: 14, label: "Anniversary Decoration" },
+  //   { id: 21, label: "Balloon Hamper" },
+  // ];
+
+  // useEffect(() => {
+  //   const fetchNavCategories = async () => {
+  //     try {
+  //       const res = await fetch("/api/categories");
+  //       const data = await res.json();
+  //       const allFetched: Category[] = data.categories || [];
+
+  //       // Correctly type the filtering logic
+  //       const filtered: NavItem[] = navConfig
+  //         .map((config) => {
+  //           const found = allFetched.find((cat) => cat.id === config.id);
+  //           if (found) {
+  //             return {
+  //               ...found,
+  //               displayLabel: config.label,
+  //             };
+  //           }
+  //           return null;
+  //         })
+  //         .filter((item): item is NavItem => item !== null); // Type Predicate fix
+
+  //       setCategories(filtered);
+  //     } catch (err) {
+  //       console.error("Failed to load nav categories", err);
+  //     }
+  //   };
+  //   fetchNavCategories();
+  // }, []);
+
+
+  // useEffect(() => {
+  //   const fetchNavCategories = async () => {
+  //     try {
+  //       const res = await fetch("/api/categories");
+
+  //       if (!res.ok) {
+  //         throw new Error("Categories API failed");
+  //       }
+
+  //       const data = await res.json();
+  //       const allFetched: Category[] = data?.categories ?? [];
+
+  //       const filtered: NavItem[] = navConfig
+  //         .map((config) => {
+  //           const found = allFetched.find((cat) => cat.id === config.id);
+  //           return found
+  //             ? { ...found, displayLabel: config.label }
+  //             : null;
+  //         })
+  //         .filter((item): item is NavItem => item !== null);
+
+  //       setCategories(filtered);
+  //     } catch (err) {
+  //       console.error("Failed to load nav categories", err);
+  //     }
+  //   };
+
+  //   fetchNavCategories();
+  // }, []);
+
+  "use client";
+
+  // 1. Ensure your config IDs match your database screenshot exactly
+  const navConfig = [
+    { id: 12, label: "Birthday" },           // ID 12 is Birthday Decoration
+    { id: 14, label: "Anniversary" },        // ID 14 is Anniversary Decoration
+    { id: 15, label: "Baby Shower" },        // ID 15 is Baby Shower Decorations
+    { id: 16, label: "Newborn Welcome" },    // ID 16 is Newborn Welcome Decoration
+    { id: 17, label: "Kids Special" },       // ID 17 is Kids Theme Decoration
+    { id: 22, label: "Wedding Special" },    // ID 22 is Weeding Special (note the DB typo)
+    { id: 23, label: "Corporate Events" },   // ID 23 is Corporate Events
+    { id: 24, label: "Car Boot" },           // ID 24 is Car Boot Decoration
+  ];
+
   useEffect(() => {
-    const delay = setTimeout(() => {
-      searchProducts(search);
-    }, 400); // debounce 400ms
+    const fetchNavCategories = async () => {
+      try {
+        const res = await fetch("/api/categories");
 
-    return () => clearTimeout(delay);
-  }, [search]);
+        if (!res.ok) {
+          throw new Error("Categories API failed");
+        }
 
+        const data = await res.json();
+
+        // Use optional chaining and nullish coalescing to safely get categories
+        const allFetched: Category[] = data?.categories ?? data ?? [];
+
+        const filtered: NavItem[] = navConfig
+          .map((config) => {
+            // Compare IDs as numbers to avoid type mismatch issues
+            const found = allFetched.find((cat) => Number(cat.id) === Number(config.id));
+
+            if (found) {
+              return {
+                ...found,
+                displayLabel: config.label
+              };
+            }
+            return null;
+          })
+          .filter((item): item is NavItem => item !== null);
+
+        setCategories(filtered);
+      } catch (err) {
+        console.error("Failed to load nav categories", err);
+      }
+    };
+
+    fetchNavCategories();
+  }, []);
 
   return (
     <header className="">
@@ -892,29 +1029,36 @@ export default function Header() {
         </div>
       </div>
 
-      <nav className="">
+      <nav className="w-full">
         <div className="border-t border-b border-gray-300 py-3 lg:block hidden">
-          {/* Desktop Menu */}
-          <div className="hidden sm:flex sm:items-center sm:justify-center space-x-4 *:px-3 *:py-1 *:text-black *:hover:text-(--pinkd) *:transition-all *:ease-in-out">
-            <Link href="/view-all?category=Birthday%20Decorations">
-              Birthday
-            </Link>
-            <Link href="/view-all?category=Anniversary%20Decoration">Anniversary</Link>
-            <Link href="/view-all?category=Baby%20Welcome">Baby Welcome</Link>
-            <Link href="/view-all">Other Categories</Link>
-          </div>
-        </div>
+          <div className="flex items-center justify-center flex-wrap gap-x-2 gap-y-2">
+            {categories.map((cat) => (
+              <Link
+                key={cat.id}
+                href={`/view-all?category_id=${cat.id}&category=${encodeURIComponent(cat.name)}`}
+                className="px-3 py-1 text-black hover:text-pink-600 transition-all text-sm font-medium"
+              >
+                {/* No more error here! */}
+                {cat.displayLabel || cat.name}
+              </Link>
+            ))}
 
-        {/* Mobile Menu */}
-        <div className={`${isOpen ? "block" : "hidden"} lg:hidden`}>
-          <div className="px-2 pt-2 pb-3 space-y-1 *:text-black *:block *:px-3 *:py-2 *:rounded-md *:text-base *:font-medium *:hover:bg-gray-700">
-            <Link href="/view-all?category=Birthday%20Decorations">Birthday</Link>
-            <Link href="/view-all?category=Anniversary%20Decoration">Anniversary</Link>
-            <Link href="/view-all?category=Baby%20Welcome">Baby Welcome</Link>
-            <Link href="/view-all">Other Categories</Link>
+            <Link href="/view-all" className="px-3 py-1 text-black hover:text-pink-600 text-sm font-medium">
+              Other Categories
+            </Link>
+            <a
+              href="https://forms.gle/w64M9ySheDHCfoE57"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1 font-bold text-pink-600 border-l border-gray-300 ml-2 pl-4 text-sm"
+            >
+              Partner
+            </a>
+
           </div>
         </div>
       </nav>
+
     </header>
   );
 }

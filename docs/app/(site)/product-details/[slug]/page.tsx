@@ -285,7 +285,7 @@ export default function ProductDetailPage() {
                     <div className="border rounded border-[#FFDDDD] bg-[#FFDDDD] px-2 w-fit text-sm">
                         <p className="flex gap-2 text-[#FF6A9E]">
                             <img src="/images/game.svg" />
-                            #1 Decoration website in India
+                            #1 Premium Decor Across India
                         </p>
                     </div>
 
@@ -357,6 +357,12 @@ export default function ProductDetailPage() {
                             Similar products →
                         </span>
                     </div>
+
+                    {/* <Link href="/view-all">
+                        <span className="bg-[#CFCFCF] text-[12px] px-4 py-1 rounded cursor-pointer">
+                            Similar products →
+                        </span>
+                    </Link> */}
 
                     <div className="mt-5 bg-white rounded-xl border border-gray-200 p-4">
                         {/* Header */}
@@ -526,7 +532,7 @@ export default function ProductDetailPage() {
 
                             <button
                                 onClick={() => {
-                                    const phone = "919876543210";
+                                    const phone = "919955997363";
                                     const message = encodeURIComponent(
                                         "Hi, I am interested in this product."
                                     );

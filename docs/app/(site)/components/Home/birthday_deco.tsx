@@ -576,29 +576,493 @@
 // }
 
 
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import Link from "next/link";
+
+// import Kids_Birthday from "./Kids_Birthday";
+// import New_Collections from "./New_Collections";
+// import Service_Bars from "./Service_Bars";
+// import Baby_Decor from "./Baby_Decor";
+// import Baby_Shower from "./Baby_Shower";
+// import Hampers from "./Hampers";
+// import Anniversary_deco from "./Anniversary_deco";
+// import Surprise_Love from "./Surprise_Love";
+// import Section_11 from "./Section_11";
+// import Freq_ques from "./Freq_ques";
+// import Book_Decors from "./Book _Decors";
+// import Customers from "../About/Customers";
+// import Mobilebottomtabs from "../Mobilebottomtabs/Mobilebottomtabs";
+
+// /* =======================
+//    TYPES
+// ======================= */
+// interface Category {
+//   id: number;
+//   name: string;
+//   slug: string;
+//   image: string | null;
+// }
+
+// interface Product {
+//   id: number;
+//   productName: string;
+//   productImage: string | null;
+//   price: number;
+//   sellingPrice: number;
+//   stockQuantity: number;
+//   category: string;
+// }
+
+// interface CategoryWithProducts {
+//   category: Category;
+//   products: Product[];
+//   loading: boolean;
+// }
+
+// /* =======================
+//    COMPONENT
+// ======================= */
+// export default function BirthdayDeco() {
+//   const [categoriesWithProducts, setCategoriesWithProducts] =
+//     useState<CategoryWithProducts[]>([]);
+//   const [loading, setLoading] = useState(true);
+
+//   // 🎯 Set the category ID you want to fetch
+//   const ONLY_CATEGORY_ID = 12; // Birthday Decoration ID from your API
+
+//   useEffect(() => {
+//     fetchCategoryByID();
+//   }, []);
+
+//   const fetchCategoryByID = async () => {
+//     try {
+//       setLoading(true);
+//       console.log("➡️ Fetching categories from /api/categories");
+
+//       const categoriesRes = await fetch("/api/categories");
+//       if (!categoriesRes.ok) throw new Error("Failed to fetch categories");
+
+//       const categoriesData = await categoriesRes.json();
+//       console.log("📥 Categories API Response:", categoriesData);
+
+//       const allCategories: Category[] = categoriesData?.categories || [];
+
+//       // 🔹 Filter category by ID
+//       const selectedCategory = allCategories.find(
+//         (cat) => cat.id === ONLY_CATEGORY_ID
+//       );
+
+//       if (!selectedCategory) {
+//         console.warn("⚠️ Category not found with ID:", ONLY_CATEGORY_ID);
+//         setCategoriesWithProducts([]);
+//         return;
+//       }
+
+//       console.log("✅ Selected Category:", selectedCategory);
+
+//       // 🔹 Fetch products for this category ID
+//       console.log(
+//         `➡️ Fetching products for category ID: ${selectedCategory.id}`
+//       );
+
+//       const productsRes = await fetch(
+//         `/api/products?category_id=${selectedCategory.id}&limit=4`
+//       );
+
+//       if (!productsRes.ok) throw new Error("Failed to fetch products");
+
+//       const productsData = await productsRes.json();
+//       console.log(
+//         "📥 Products API Response:",
+//         productsData,
+//         "for category ID:",
+//         selectedCategory.id
+//       );
+
+//       setCategoriesWithProducts([
+//         {
+//           category: selectedCategory,
+//           products: productsData?.products || [],
+//           loading: false,
+//         },
+//       ]);
+//     } catch (err) {
+//       console.error("❌ Error fetching category/products:", err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   /* =======================
+//      HELPERS
+//   ======================= */
+//   const calculateDiscount = (price: number, sellingPrice: number) => {
+//     if (price > sellingPrice) {
+//       return Math.round(((price - sellingPrice) / price) * 100);
+//     }
+//     return 0;
+//   };
+
+//   const renderProductCard = (product: Product) => {
+//     const discount = calculateDiscount(product.price, product.sellingPrice);
+
+//     const imageUrl =
+//       product.productImage?.trim() ||
+//       "/assets/home/birthday_deco/1.jpg";
+
+//     return (
+//       <Link
+//         key={product.id}
+//         href={`/product-details/${product.id}`}
+//         className="cursor-pointer"
+//       >
+//         <img
+//           src={imageUrl}
+//           alt={product.productName}
+//           className="w-full aspect-square object-cover rounded-lg mb-4"
+//         />
+
+//         <div className="px-2">
+//           <span className="text-yellow-400 block">★★★★★</span>
+
+//           <p className="text-sm md:text-base lg:text-lg font-medium mb-2 line-clamp-2">
+//             {product.productName}
+//           </p>
+
+//           <div className="flex items-center gap-2 flex-wrap">
+//             <span className="font-semibold text-lg">
+//               ₹{product.sellingPrice}
+//             </span>
+
+//             {product.price > product.sellingPrice && (
+//               <>
+//                 <span className="text-gray-400 line-through text-sm">
+//                   ₹{product.price}
+//                 </span>
+
+//                 {discount > 0 && (
+//                   <span className="border border-[#93F8C5] rounded-xl px-2 py-0.5 text-xs font-medium text-[#016136] bg-linear-to-r from-[#91F8C5] to-white">
+//                     {discount}% OFF
+//                   </span>
+//                 )}
+//               </>
+//             )}
+//           </div>
+//         </div>
+//       </Link>
+//     );
+//   };
+
+//   const renderCategorySection = (
+//     categoryData: CategoryWithProducts,
+//     index: number
+//   ) => {
+//     const { category, products, loading } = categoryData;
+
+//     return (
+//       <div
+//         key={category.id}
+//         className={`${index > 0 ? "sm:mt-10 mt-5" : ""} container mx-auto p-4`}
+//       >
+//         {/* Header */}
+//         <div className="flex justify-between items-center mb-5">
+//           <h3 className="text-[16px] sm:text-[18px] lg:text-[27px] font-semibold">
+//             {category.name}
+//           </h3>
+
+//           <Link
+//             href={`/view-all?category=${category.slug}`}
+//             className="text-(--pinkd) underline text-[12px] sm:text-sm"
+//           >
+//             View All
+//           </Link>
+
+//         </div>
+
+//         {/* Products */}
+//         {loading ? (
+//           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+//             {[1, 2, 3, 4].map((i) => (
+//               <div key={`placeholder-${i}`} className="animate-pulse">
+//                 <div className="w-full aspect-square bg-gray-200 rounded-lg mb-4" />
+//                 <div className="h-4 bg-gray-200 rounded mb-2" />
+//                 <div className="h-4 bg-gray-200 rounded w-2/3" />
+//               </div>
+//             ))}
+//           </div>
+//         ) : (
+//           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+//             {products.map(renderProductCard)}
+//           </div>
+//         )}
+//       </div>
+//     );
+//   };
+
+//   /* =======================
+//      RENDER
+//   ======================= */
+//   return (
+//     <div>
+//       {loading ? (
+//         <div className="container mx-auto p-4 animate-pulse">
+//           <div className="h-8 bg-gray-200 w-1/3 mb-5 rounded" />
+//         </div>
+//       ) : (
+//         categoriesWithProducts.map(renderCategorySection)
+//       )}
+
+//       {/* Other Sections */}
+//       <Anniversary_deco />
+//       <New_Collections />
+//       <Surprise_Love />
+//       <Kids_Birthday />
+//       <Baby_Decor />
+//       <Baby_Shower />
+//       <Hampers />
+//       <Service_Bars />
+//       <Customers />
+//       <Section_11 />
+//       <Freq_ques />
+//       <Book_Decors />
+//       <Mobilebottomtabs />
+//     </div>
+//   );
+// }
+
+
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import Link from "next/link";
+
+// /* =======================
+//    TYPES
+// ======================= */
+// interface Category {
+//   id: number;
+//   name: string;
+//   slug: string;
+//   image: string | null;
+// }
+
+// interface Product {
+//   id: number;
+//   productName: string;
+//   productImage: string | null;
+//   price: number;
+//   sellingPrice: number;
+//   stockQuantity: number;
+//   category: string;
+// }
+
+// interface CategoryWithProducts {
+//   category: Category;
+//   products: Product[];
+//   loading: boolean;
+// }
+
+// /* =======================
+//    COMPONENT
+// ======================= */
+// export default function BirthdayDeco() {
+//   const [categoriesWithProducts, setCategoriesWithProducts] =
+//     useState<CategoryWithProducts[]>([]);
+//   const [loading, setLoading] = useState(true);
+
+//   const ONLY_CATEGORY_ID = 12; // 🎂 Birthday Decoration
+
+//   useEffect(() => {
+//     fetchCategoryByID();
+//   }, []);
+
+//   const fetchCategoryByID = async () => {
+//     try {
+//       setLoading(true);
+//       console.log("➡️ Fetching categories from /api/categories");
+
+//       const categoriesRes = await fetch("/api/categories");
+//       if (!categoriesRes.ok) throw new Error("Failed to fetch categories");
+
+//       const categoriesData = await categoriesRes.json();
+//       console.log("📥 Categories API Response:", categoriesData);
+
+//       const allCategories: Category[] = categoriesData?.categories || [];
+
+//       // 🔹 Filter category by ID
+//       const selectedCategory = allCategories.find(
+//         (cat) => cat.id === ONLY_CATEGORY_ID
+//       );
+
+//       if (!selectedCategory) {
+//         console.warn("⚠️ Category not found with ID:", ONLY_CATEGORY_ID);
+//         setCategoriesWithProducts([]);
+//         return;
+//       }
+
+//       console.log("✅ Selected Category:", selectedCategory);
+
+//       // 🔹 Fetch products for this category ID
+//       console.log(
+//         `➡️ Fetching products for category ID: ${selectedCategory.id}`
+//       );
+
+//       const productsRes = await fetch(
+//         `/api/products?category_id=${selectedCategory.id}&limit=4`
+//       );
+
+//       if (!productsRes.ok) throw new Error("Failed to fetch products");
+
+//       const productsData = await productsRes.json();
+//       console.log(
+//         "📥 Products API Response:",
+//         productsData,
+//         "for category ID:",
+//         selectedCategory.id
+//       );
+
+//       setCategoriesWithProducts([
+//         {
+//           category: selectedCategory,
+//           products: productsData?.products || [],
+//           loading: false,
+//         },
+//       ]);
+//     } catch (err) {
+//       console.error("❌ Error fetching category/products:", err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   /* =======================
+//      HELPERS
+//   ======================= */
+//   const calculateDiscount = (price: number, sellingPrice: number) => {
+//     if (price > sellingPrice) {
+//       return Math.round(((price - sellingPrice) / price) * 100);
+//     }
+//     return 0;
+//   };
+
+//   const renderProductCard = (product: Product) => {
+//     const discount = calculateDiscount(product.price, product.sellingPrice);
+
+//     const imageUrl =
+//       product.productImage?.trim() ||
+//       "/assets/home/birthday_deco/1.jpg";
+
+//     return (
+//       <Link
+//         key={product.id}
+//         href={`/product-details/${product.id}`}
+//         className="cursor-pointer"
+//       >
+//         <img
+//           src={imageUrl}
+//           alt={product.productName}
+//           className="w-full aspect-square object-cover rounded-lg mb-4"
+//         />
+
+//         <div className="px-2">
+//           <span className="text-yellow-400 block">★★★★★</span>
+
+//           <p className="text-sm md:text-base lg:text-lg font-medium mb-2 line-clamp-2">
+//             {product.productName}
+//           </p>
+
+//           <div className="flex items-center gap-2 flex-wrap">
+//             <span className="font-semibold text-lg">
+//               ₹{product.sellingPrice}
+//             </span>
+
+//             {product.price > product.sellingPrice && (
+//               <>
+//                 <span className="text-gray-400 line-through text-sm">
+//                   ₹{product.price}
+//                 </span>
+
+//                 {discount > 0 && (
+//                   <span className="border border-[#93F8C5] rounded-xl px-2 py-0.5 text-xs font-medium text-[#016136] bg-linear-to-r from-[#91F8C5] to-white">
+//                     {discount}% OFF
+//                   </span>
+//                 )}
+//               </>
+//             )}
+//           </div>
+//         </div>
+//       </Link>
+//     );
+//   };
+
+//   const renderCategorySection = (
+//     categoryData: CategoryWithProducts
+//   ) => {
+//     const { category, products, loading } = categoryData;
+
+//     return (
+//       <div className="container mx-auto p-4">
+//         {/* Header */}
+//         <div className="flex justify-between items-center mb-5">
+//           <h3 className="text-[16px] sm:text-[18px] lg:text-[27px] font-semibold">
+//             {category.name}
+//           </h3>
+
+//           <Link
+//             href={`/view-all?category=${category.slug}`}
+//             className="text-(--pinkd) underline text-[12px] sm:text-sm"
+//           >
+//             View All
+//           </Link>
+//         </div>
+
+//         {/* Products */}
+//         {loading ? (
+//           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+//             {[1, 2, 3, 4].map((i) => (
+//               <div key={i} className="animate-pulse">
+//                 <div className="w-full aspect-square bg-gray-200 rounded-lg mb-4" />
+//                 <div className="h-4 bg-gray-200 rounded mb-2" />
+//                 <div className="h-4 bg-gray-200 rounded w-2/3" />
+//               </div>
+//             ))}
+//           </div>
+//         ) : (
+//           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+//             {products.map(renderProductCard)}
+//           </div>
+//         )}
+//       </div>
+//     );
+//   };
+
+//   /* =======================
+//      RENDER
+//   ======================= */
+//   return (
+//     <div>
+//       {loading ? (
+//         <div className="container mx-auto p-4 animate-pulse">
+//           <div className="h-8 bg-gray-200 w-1/3 mb-5 rounded" />
+//         </div>
+//       ) : (
+//         categoriesWithProducts.map(renderCategorySection)
+//       )}
+//     </div>
+//   );
+// }
+
+
 "use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import Kids_Birthday from "./Kids_Birthday";
-import New_Collections from "./New_Collections";
-import Service_Bars from "./Service_Bars";
-import Baby_Decor from "./Baby_Decor";
-import Baby_Shower from "./Baby_Shower";
-import Hampers from "./Hampers";
-import Anniversary_deco from "./Anniversary_deco";
-import Surprise_Love from "./Surprise_Love";
-import Section_11 from "./Section_11";
-import Freq_ques from "./Freq_ques";
-import Book_Decors from "./Book _Decors";
-import Customers from "../About/Customers";
-import Mobilebottomtabs from "../Mobilebottomtabs/Mobilebottomtabs";
-
 /* =======================
-   TYPES
+   TYPES (Updated to match your API)
 ======================= */
-
 interface Category {
   id: number;
   name: string;
@@ -610,10 +1074,11 @@ interface Product {
   id: number;
   productName: string;
   productImage: string | null;
-  price: number;
-  sellingPrice: number;
+  price: string | number; // API returns string "3499.00"
+  sellingPrice: string | number;
   stockQuantity: number;
   category: string;
+  category_id: number;
 }
 
 interface CategoryWithProducts {
@@ -622,81 +1087,62 @@ interface CategoryWithProducts {
   loading: boolean;
 }
 
-/* =======================
-   COMPONENT
-======================= */
-
 export default function BirthdayDeco() {
-  const [categoriesWithProducts, setCategoriesWithProducts] =
-    useState<CategoryWithProducts[]>([]);
+  const [categoriesWithProducts, setCategoriesWithProducts] = useState<CategoryWithProducts[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // 🎯 ONLY THIS CATEGORY WILL SHOW
-  const ONLY_CATEGORY = "Birthday Decorations";
+  // 🎂 Specific Category ID for Birthday Decoration
+  const ONLY_CATEGORY_ID = 12;
 
   useEffect(() => {
-    fetchBirthdayCategory();
+    fetchCategoryByID();
   }, []);
 
-  const fetchBirthdayCategory = async () => {
+  const fetchCategoryByID = async () => {
     try {
       setLoading(true);
 
-      // 1️⃣ Fetch all categories
+      // 1. Fetch Categories to get the specific name/slug for ID 12
       const categoriesRes = await fetch("/api/categories");
-      if (!categoriesRes.ok) throw new Error("Failed to fetch categories");
-
       const categoriesData = await categoriesRes.json();
-      const allCategories: Category[] = categoriesData?.categories || [];
-
-      // 2️⃣ Filter ONLY Birthday Decorations
-      const birthdayCategory = allCategories.filter(
-        (category) =>
-          category.name.toLowerCase() === ONLY_CATEGORY.toLowerCase()
+      const selectedCategory = categoriesData?.categories?.find(
+        (cat: Category) => cat.id === ONLY_CATEGORY_ID
       );
 
-      if (birthdayCategory.length === 0) {
-        console.warn("Birthday Decorations category not found");
-        setCategoriesWithProducts([]);
-        return;
+      // 2. Fetch products with a high limit to ensure you get all 51 items
+      // We add ?limit=100 to bypass the default pagination of 10
+      const productsRes = await fetch("/api/products?limit=100");
+      const productsData = await productsRes.json();
+
+      // 3. Filter on the frontend
+      // This ensures ONLY products with category_id: 12 are stored in state
+      const allProducts = productsData?.products || [];
+      const filteredProducts = allProducts.filter(
+        (p: any) => p.category_id === ONLY_CATEGORY_ID
+      );
+
+      console.log(`✅ Found ${filteredProducts.length} products for Birthday Deco`);
+
+      if (selectedCategory) {
+        setCategoriesWithProducts([
+          {
+            category: selectedCategory,
+            products: filteredProducts,
+            loading: false,
+          },
+        ]);
       }
-
-      // 3️⃣ Fetch products for Birthday Decorations
-      const results = await Promise.all(
-        birthdayCategory.map(async (category) => {
-          try {
-            const productsRes = await fetch(
-              `/api/products?category=${encodeURIComponent(category.name)}&limit=4`
-            );
-
-            if (!productsRes.ok) {
-              return { category, products: [], loading: false };
-            }
-
-            const productsData = await productsRes.json();
-            return {
-              category,
-              products: productsData?.products?.slice(0, 4) || [],
-              loading: false,
-            };
-          } catch {
-            return { category, products: [], loading: false };
-          }
-        })
-      );
-
-      setCategoriesWithProducts(results);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error("❌ Error:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  /* =======================
-     HELPERS
-  ======================= */
 
+  /* =======================
+      HELPERS
+  ======================= */
   const calculateDiscount = (price: number, sellingPrice: number) => {
     if (price > sellingPrice) {
       return Math.round(((price - sellingPrice) / price) * 100);
@@ -705,45 +1151,36 @@ export default function BirthdayDeco() {
   };
 
   const renderProductCard = (product: Product) => {
-    const discount = calculateDiscount(product.price, product.sellingPrice);
+    // Convert string prices from API to numbers for calculation
+    const priceNum = Number(product.price);
+    const sellingPriceNum = Number(product.sellingPrice);
+    const discount = calculateDiscount(priceNum, sellingPriceNum);
 
-    const imageUrl =
-      product.productImage?.trim()
-        ? product.productImage
-        : "/assets/home/birthday_deco/1.jpg";
+    const imageUrl = product.productImage || "/assets/home/birthday_deco/1.jpg";
 
     return (
-      <Link
-        key={product.id}
-        href={`/product-details/${product.id}`}
-        className="cursor-pointer"
-      >
-        <img
-          src={imageUrl}
-          alt={product.productName}
-          className="w-full aspect-square object-cover rounded-lg mb-4"
-        />
+      <Link key={product.id} href={`/product-details/${product.id}`} className="group cursor-pointer">
+        <div className="overflow-hidden rounded-lg mb-4">
+          <img
+            src={imageUrl}
+            alt={product.productName}
+            className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
 
         <div className="px-2">
           <span className="text-yellow-400 block">★★★★★</span>
-
-          <p className="text-sm md:text-base lg:text-lg font-medium mb-2 line-clamp-2">
+          <p className="text-sm md:text-base font-medium mb-2 line-clamp-2">
             {product.productName}
           </p>
 
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-semibold text-lg">
-              ₹{product.sellingPrice}
-            </span>
-
-            {product.price > product.sellingPrice && (
+            <span className="font-semibold text-lg">₹{sellingPriceNum}</span>
+            {priceNum > sellingPriceNum && (
               <>
-                <span className="text-gray-400 line-through text-sm">
-                  ₹{product.price}
-                </span>
-
+                <span className="text-gray-400 line-through text-sm">₹{priceNum}</span>
                 {discount > 0 && (
-                  <span className="border border-[#93F8C5] rounded-xl px-2 py-0.5 text-xs font-medium text-[#016136] bg-linear-to-r from-[#91F8C5] to-white">
+                  <span className="border border-[#93F8C5] rounded-xl px-2 py-0.5 text-[10px] font-medium text-[#016136] bg-green-50">
                     {discount}% OFF
                   </span>
                 )}
@@ -755,82 +1192,56 @@ export default function BirthdayDeco() {
     );
   };
 
-  const renderCategorySection = (
-    categoryData: CategoryWithProducts,
-    index: number
-  ) => {
-    const { category, products, loading } = categoryData;
+  const renderCategorySection = (categoryData: CategoryWithProducts) => {
+    const { category, products } = categoryData;
 
     return (
-      <div
-        key={category.id}
-        className={`${index > 0 ? "sm:mt-10 mt-5" : ""} container mx-auto p-4`}
-      >
-        {/* Header */}
-        <div className="flex justify-between items-center mb-5">
-          <h3 className="text-[16px] sm:text-[18px] lg:text-[27px] font-semibold">
+      <div key={category.id} className="container mx-auto p-4">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl md:text-2xl font-bold text-gray-800">
             {category.name}
           </h3>
 
           <Link
-            href={`/view-all?category=${encodeURIComponent(category.name)}`}
-            className="text-(--pinkd) underline text-[12px] sm:text-sm"
+            href={`/view-all?category_id=${category.id}&name=${encodeURIComponent(category.name)}`}
+            className="text-pink-600 underline text-sm"
           >
             View All
           </Link>
+
         </div>
 
-        {/* Products */}
-        {loading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="animate-pulse">
-                <div className="w-full aspect-square bg-gray-200 rounded-lg mb-4" />
-                <div className="h-4 bg-gray-200 rounded mb-2" />
-                <div className="h-4 bg-gray-200 rounded w-2/3" />
-              </div>
-            ))}
+        {products.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            {products.slice(0, 4).map(renderProductCard)}
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {products.map(renderProductCard)}
-          </div>
+          <p className="text-gray-500">No products found in this category.</p>
         )}
       </div>
     );
   };
 
-  /* =======================
-     RENDER
-  ======================= */
+  if (loading) {
+    return (
+      <div className="container mx-auto p-4 animate-pulse">
+        <div className="h-8 bg-gray-200 w-48 mb-6 rounded" />
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i}><div className="aspect-square bg-gray-200 rounded-lg mb-4" /><div className="h-4 bg-gray-200 w-3/4" /></div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      {loading ? (
-        <div className="container mx-auto p-4 animate-pulse">
-          <div className="h-8 bg-gray-200 w-1/3 mb-5 rounded" />
-        </div>
-      ) : (
-        categoriesWithProducts.map(renderCategorySection)
-      )}
-
-      {/* Other Sections */}
-      <Anniversary_deco />
-      <New_Collections />
-      <Surprise_Love />
-      <Kids_Birthday />
-      <Baby_Decor />
-      <Baby_Shower />
-      <Hampers />
-      <Service_Bars />
-      <Customers />
-      <Section_11 />
-      <Freq_ques />
-      <Book_Decors />
-      <Mobilebottomtabs />
+    <div className="py-8">
+      {categoriesWithProducts.map(renderCategorySection)}
     </div>
   );
 }
+
 
 
 

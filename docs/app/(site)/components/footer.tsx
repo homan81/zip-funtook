@@ -13,13 +13,17 @@ export default function Footer() {
     <footer className="bg-[#1b0a0a] text-white">
       <div className="container mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* Brand */}
+
         <div>
-          <img src="/images/logowhite.svg" alt="logo" />
+          <Link href="/" className="inline-block">
+            <img src="/images/logowhite.svg" alt="logo" />
+          </Link>
           <p className="text-sm text-gray-300 leading-relaxed hidden md:block ">
             Funtook, your one-step destination creating unstopable moments. At
             Funtook, we specialize in transforming your celebrations.
           </p>
         </div>
+
 
         {/* QUICK LINKS */}
         <div className="m-0 md:ml-[100px]">
@@ -47,9 +51,9 @@ export default function Footer() {
             <li>
               <Link href="/about">About Us</Link>
             </li>
-            <li>
+            {/* <li>
               <Link href="/#">Shop</Link>
-            </li>
+            </li> */}
             <li>
               <Link href="/blog">Blogs</Link>
             </li>
@@ -58,7 +62,7 @@ export default function Footer() {
             </li>
             <li>
               <Link href="/recent-work">Recent Work</Link>
-            </li> 
+            </li>
           </ul>
         </div>
 
@@ -111,9 +115,33 @@ export default function Footer() {
       <div className="container mx-auto border-t border-gray-700">
         <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-start justify-between gap-4 text-sm text-white">
           <div className="flex gap-4">
-            <Instagram className="w-5 h-5" />
-            <Facebook className="w-5 h-5" />
-            <Youtube className="w-5 h-5" />
+            <a
+              href="https://www.instagram.com/funtook_party_planners/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <Instagram className="w-5 h-5" />
+            </a>
+
+            <a
+              href="https://www.facebook.com/people/Funtook-Eventz/100083702961235/#"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+            >
+              <Facebook className="w-5 h-5" />
+            </a>
+
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+            >
+              <Youtube className="w-5 h-5" />
+            </a>
+
           </div>
           <p>© Copyright 2024. Designed by funtook. All Rights Reserved</p>
         </div>

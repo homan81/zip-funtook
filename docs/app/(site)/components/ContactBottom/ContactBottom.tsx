@@ -63,7 +63,7 @@ export default function ContactBottomSheet({
               <p className="font-bold text-sm">
                 Give us a call
               </p>
-              <p className="text-sm text-gray-600">+91 9508638307</p>
+              <p className="text-sm text-gray-600">+91 9955997363</p>
             </div>
           </div>
 
